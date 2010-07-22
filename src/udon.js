@@ -13,7 +13,7 @@ Udon.foldr = function(fn, z, xs) {
 };
 
 Udon.map = function(fn, xs) {
-    var ys = [], i = xs.length;
+    var i = xs.length, ys = new Array(i);
     while (i--) ys[i] = fn(xs[i]);
     return ys;
 };
