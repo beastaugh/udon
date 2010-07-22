@@ -46,7 +46,7 @@ Udon.unfoldr = function(step, seed) {
 };
 
 Udon.zip = function(xs, ys) {
-    return Udon.zipWith(function(x, y) { return [x, y]; });
+    return Udon.zipWith(function(x, y) { return [x, y]; }, xs, ys);
 };
 
 Udon.zipWith = function(fn, xs, ys) {
