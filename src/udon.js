@@ -19,8 +19,8 @@ Udon.map = function(fn, xs) {
 };
 
 Udon.filter = function(fn, xs) {
-    var ys = [], i = xs.length, e;
-    while (i--) {
+    var ys = [], len = xs.length, i, e;
+    for (i = 0; i < len; i++) {
         e = xs[i];
         if (fn(e)) ys.push(e);
     }
