@@ -35,3 +35,14 @@ Udon.unfoldr = function(step, seed) {
     }
     return output;
 };
+
+Udon.zipWith = function(fn, xs, ys) {
+    var xsl = xs.length, ysl = ys.length,
+        len = xsl > ysl ? ysl : xsl, zs = [], i;
+    for (i = 0; i < len; i++) zs[i] = fn(xs[i], ys[i]);
+    return zs;
+};
+
+Udon.zip = function(xs, ys) {
+    return Udon.zipWith(function(x, y) { return [x, y]; });
+};
