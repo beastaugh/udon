@@ -45,12 +45,12 @@ Udon.unfoldr = function(step, seed) {
     return output;
 };
 
+Udon.zip = function(xs, ys) {
+    return Udon.zipWith(function(x, y) { return [x, y]; });
+};
+
 Udon.zipWith = function(fn, xs, ys) {
     var xsl = xs.length, ysl = ys.length, zs = [], i = xsl > ysl ? ysl : xsl;
     while (i--) zs[i] = fn(xs[i], ys[i]);
     return zs;
-};
-
-Udon.zip = function(xs, ys) {
-    return Udon.zipWith(function(x, y) { return [x, y]; });
 };
