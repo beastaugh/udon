@@ -27,6 +27,15 @@ Udon.filter = function(fn, xs) {
     return ys;
 };
 
+Udon.partition = function(fn, xs) {
+    var ts = [], fs = [], len = xs.length, i, e;
+    for (i = 0; i < len; i++) {
+        e = xs[i];
+        (fn(e) ? ts : fs).push(e);
+    }
+    return [ts, fs];
+};
+
 Udon.unfoldr = function(step, seed) {
     var output  = [], result;
     while (result = step(seed)) {
