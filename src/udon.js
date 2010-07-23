@@ -38,7 +38,7 @@ Udon.partition = function(fn, xs) {
 
 Udon.unfoldr = function(step, seed) {
     var output  = [], result;
-    while (result = step(seed)) {
+    while ((result = step(seed))) {
         output.push(result[0]);
         seed = result[1];
     }
