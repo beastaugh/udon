@@ -50,7 +50,8 @@ Udon.zip = function(xs, ys) {
 };
 
 Udon.zipWith = function(fn, xs, ys) {
-    var xsl = xs.length, ysl = ys.length, zs = [], i = xsl > ysl ? ysl : xsl;
+    var xsl = xs.length, ysl = ys.length, i = xsl > ysl ? ysl : xsl,
+        zs = new Array(i);
     while (i--) zs[i] = fn(xs[i], ys[i]);
     return zs;
 };
