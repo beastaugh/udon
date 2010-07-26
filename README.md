@@ -38,7 +38,7 @@ right-associative. So, for example, you could use `foldr` to convert an array
 into a singly-linked list.
 
     function array2list(arr) {
-        Udon.foldr(function(head, tail) {
+        return Udon.foldr(function(head, tail) {
             return {
                 car: head,
                 cdr: tail
