@@ -1,5 +1,25 @@
 Udon = (typeof Udon === 'undefined') ? {} : Udon;
 
+Udon.ncurry = function(n) {
+    if (typeof n != 'number' || n < 2) n = 2;
+    return function(f) {
+        var a1 = Array.prototype.slice.call(arguments, 1),
+        curry = function() {
+            var a2 = a1.concat(Array.prototype.slice.call(arguments, 0));
+            if (a2.length < n) {
+                a2.unshift(f);
+                a1 = a2;
+                return _curry;
+            } else {
+                return fn.apply(null, a2);
+            }
+        };
+        return curry;
+    };
+};
+
+Udon.curry = Udon.ncurry(2);
+
 Udon.foldl = function(f, z, xs) {
     var len = xs.length, i;
     for (i = 0; i < len; i++) z = f(z, xs[i]);
