@@ -11,7 +11,7 @@ Udon.ncurry = function(n) {
                 a1 = a2;
                 return _curry;
             } else {
-                return fn.apply(null, a2);
+                return f.apply(null, a2);
             }
         };
         return curry;
