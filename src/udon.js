@@ -22,7 +22,7 @@ Udon.curry = Udon.ncurry(2);
 
 Udon.compose = function(fs) {
     return function() {
-        var i = --fs.length, as = Array.prototype.slice.call(arguments, 0), x;
+        var i = fs.length - 1, as = Array.prototype.slice.call(arguments, 0), x;
         if (i < 0) return as[0];
         x = fs[i].apply(null, as);
         while (i--) x = fs[i](x);
