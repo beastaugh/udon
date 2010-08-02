@@ -20,6 +20,16 @@ Udon.ncurry = function(n) {
 
 Udon.curry = Udon.ncurry(2);
 
+Udon.compose = function(fs) {
+    return function() {
+        var i = --fs.length, as = Array.prototype.slice.call(arguments, 0), x;
+        if (i < 0) return as[0];
+        x = fs[i].apply(null, as);
+        while (i--) x = fs[i](x);
+        return x;
+    };
+};
+
 Udon.foldl = function(f, z, xs) {
     var len = xs.length, i;
     for (i = 0; i < len; i++) z = f(z, xs[i]);
