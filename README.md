@@ -12,6 +12,63 @@ for functional programming in JavaScript, initially by porting some elements of
 Haskell's `Data.List` library.
 
 
+Function operations
+-------------------
+
+Passing functions around as first-class objects is one of the cornerstones of
+functional programming. Udon provides several handy mechanisms for enabling
+function composition and reuse.
+
+### `curry`
+
+Currying is the process of converting a function of arity _n_ into a nested set
+of functions with arity _1_, i.e. making it partially applicable. The default
+`curry` function converts functions of arity 2 to a function of arity 1 which,
+when called, returns a function of arity 1 that returns the result of the
+computation.
+
+    function add(a, b) {
+        return a + b;
+    }
+    
+    var plus10 = Udon.curry(add)(10);
+
+### `ncurry`
+
+The basic `curry` function will be fine for many circumstances, but sometimes
+one needs more flexibility. The `ncurry` function is a generator for currying
+functions: it accepts a number and returns a curry function that transforms
+functions of that arity to, effectively, a nest of partially applicable
+functions, each of which has arity 1.
+
+    function add3(a, b, c) {
+        return a + b + c;
+    }
+    
+    var curry3 = Udon.ncurry(3),
+        add3c  = curry3(add3);
+    
+    add3c(1)(2)(3); // -> 6
+
+### `compose`
+
+The `compose` function allows one to easily generate 'pipelines' of functions
+through which a value is passed. Note that the last function in the pipeline
+will be the first to be applied; this mirrors both the way the code would be
+written without `compose`, as a nest of function calls.
+
+    var tcs = Udon.compose([Math.sin, Math.cos, Math.tan]);
+    
+    tcs(0.7); // -> 0.6176546934901699
+
+It accepts an optional arity argument; if this is greater than 1 then the
+function pipeline will be made partially applicable.
+    
+    var ceilMax = Udon.compose([Math.ceil, Math.max], 2);
+    
+    roundMax(0.7)(1.1); // -> 2
+
+
 List operations
 ---------------
 
