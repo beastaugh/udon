@@ -20,7 +20,7 @@ Udon.ncurry = function(n) {
 
 Udon.curry = Udon.ncurry(2);
 
-Udon.compose = function(fs, p) {
+Udon.compose = function(fs, ar) {
     var composed = function() {
         var i  = fs.length - 1, x,
             as = Array.prototype.slice.call(arguments, 0);
@@ -29,7 +29,8 @@ Udon.compose = function(fs, p) {
         while (i--) x = fs[i](x);
         return x;
     };
-    return p && fs.length > 1 ? Udon.ncurry(fs.length)(composed) : composed;
+    return typeof ar == 'number' && ar > 1 ?
+        Udon.ncurry(ar)(composed) : composed;
 };
 
 Udon.foldl = function(f, z, xs) {
