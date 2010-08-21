@@ -4,22 +4,22 @@ Udon.ncurry = function(n) {
     if (typeof n != 'number' || n < 2) n = 2;
     return function(f) {
         var a1 = Array.prototype.slice.call(arguments, 1),
-        accumlate = function() {
+        accumulator = function() {
             var a2 = a1.concat(Array.prototype.slice.call(arguments, 0));
             if (a2.length < n) {
                 a2.unshift(f);
                 a1 = a2;
-                return accumlate;
+                return accumulator;
             } else {
                 return f.apply(null, a2);
             }
         };
-        return accumlate;
+        return accumulator;
     };
 };
 
 Udon.curry = function(f) {
-    var ar = f.length, a1  = Array.prototype.slice.call(arguments, 1),
+    var ar = f.length, a1 = Array.prototype.slice.call(arguments, 1),
     accumulator = function() {
         var a2 = a1;
         if (arguments.length > 0) {
