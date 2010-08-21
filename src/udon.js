@@ -1,11 +1,13 @@
 Udon = (typeof Udon === 'undefined') ? {} : Udon;
 
+Udon._slice = Array.prototype.slice;
+
 Udon.ncurry = function(n) {
     if (typeof n != 'number' || n < 2) n = 2;
     return function(f) {
-        var a1 = Array.prototype.slice.call(arguments, 1),
+        var a1 = Udon._slice.call(arguments, 1),
         accumulator = function() {
-            var a2 = a1.concat(Array.prototype.slice.call(arguments, 0));
+            var a2 = a1.concat(Udon._slice.call(arguments, 0));
             if (a2.length < n) {
                 a2.unshift(f);
                 a1 = a2;
@@ -19,12 +21,9 @@ Udon.ncurry = function(n) {
 };
 
 Udon.curry = function(f) {
-    var ar = f.length, a1 = Array.prototype.slice.call(arguments, 1),
+    var ar = f.length, a1 = Udon._slice.call(arguments, 1),
     accumulator = function() {
-        var a2 = a1;
-        if (arguments.length > 0) {
-            a2 = a2.concat(Array.prototype.slice.call(arguments, 0));
-        }
+        var a2 = a1.concat(Udon._slice.call(arguments, 0));
         return a2.length >= ar ?
             f.apply(null, a2) : Udon.curry.apply(null, [f].concat(a2));
     };
@@ -34,7 +33,7 @@ Udon.curry = function(f) {
 Udon.compose = function(fs, ar) {
     var composed = function() {
         var i  = fs.length - 1, x,
-            as = Array.prototype.slice.call(arguments, 0);
+            as = Udon._slice.call(arguments, 0);
         if (i < 0) return as[0];
         x = fs[i].apply(null, as);
         while (i--) x = fs[i](x);
