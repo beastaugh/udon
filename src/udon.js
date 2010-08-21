@@ -18,7 +18,18 @@ Udon.ncurry = function(n) {
     };
 };
 
-Udon.curry = Udon.ncurry(2);
+Udon.curry = function(f) {
+    var ar = f.length, a1  = Array.prototype.slice.call(arguments, 1),
+    accumulator = function() {
+        var a2 = a1;
+        if (arguments.length > 0) {
+            a2 = a2.concat(Array.prototype.slice.call(arguments, 0));
+        }
+        return a2.length >= ar ?
+            f.apply(null, a2) : Udon.curry.apply(null, [f].concat(a2));
+    };
+    return a1.length >= ar ? accumulator() : accumulator;
+};
 
 Udon.compose = function(fs, ar) {
     var composed = function() {

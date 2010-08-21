@@ -22,10 +22,11 @@ function composition and reuse.
 ### `curry`
 
 Currying is the process of converting a function of arity _n_ into a nested set
-of functions with arity _1_, i.e. making it partially applicable. The default
-`curry` function converts functions of arity 2 to a function of arity 1 which,
-when called, returns a function of arity 1 that returns the result of the
-computation.
+of functions with arity _1_, i.e. making it partially applicable. The `curry`
+function relies on the length property of the function to generate partially
+applicable functions, for example converting a function which accepts two
+arguments to a function which accepts one argument and returns a new function
+which also accepts one argument.
 
     function add(a, b) {
         return a + b;
@@ -36,7 +37,9 @@ computation.
 ### `ncurry`
 
 The basic `curry` function will be fine for many circumstances, but sometimes
-one needs more flexibility. The `ncurry` function is a generator for currying
+(for example when dealing with variadic functions or functions with optional
+arguments) one needs to be explicit about the number of arguments a curried
+function can accept. The `ncurry` function is a generator for currying
 functions: it accepts a number and returns a curry function that transforms
 functions of that arity to, effectively, a nest of partially applicable
 functions, each of which has arity 1.
