@@ -70,6 +70,22 @@ Udon.filter = function(f, xs) {
     return ys;
 };
 
+Udon.any = function(p, xs) {
+    var i = xs.length;
+    while (i--) if (p(xs[i])) return true;
+    return false;
+};
+
+Udon.all = function(p, xs) {
+    var i = xs.length;
+    while (i--) if (!p(xs[i])) return false;
+    return true;
+};
+
+Udon.none = function(p, xs) {
+    return !Udon.any(p, xs);
+};
+
 Udon.partition = function(f, xs) {
     var ts = [], fs = [], len = xs.length, i, e;
     for (i = 0; i < len; i++) {

@@ -126,6 +126,33 @@ Returns the elements of a list which satisfy some predicate.
     }, [4,7,3,9,21,2]);
     // -> [4,3,2]
 
+### `any`
+
+Check whether any element of a list satisfies some predicate.
+
+    Udon.any(function(regex) {
+        return regex.exec("http://");
+    }, [/[a-z]+:\/\//, /^ftp:/]);
+    // -> true
+
+### `all`
+
+Determine whether all the elements of a list satisfy some predicate.
+
+    Udon.all(function(str) {
+        return str.match(/^[A-Z][a-z]+$/);
+    }, ["One", "Two", "three"]);
+    // -> false
+
+### `none`
+
+Check that no element of a list satisfies a predicate.
+
+    Udon.none(function(c) {
+        return c === Math.PI;
+    }, [1, 0, -1, Math.LN2, Math.E]);
+    // -> true
+
 ### `partition`
 
 Separates a list into lists of those elements which do and do not satisfy some
