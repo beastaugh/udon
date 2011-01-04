@@ -1,1 +1,6 @@
 pkg
+site/_site
+site/_cache
+site/udon
+site/*.hi
+site/*.o

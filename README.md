@@ -7,9 +7,11 @@ which provide access to these fundamentals in a more-or-less functional style.
 [Ojay][ojay]'s core extensions, Oliver Steele's [Functional][functionaljs] and
 Jeremy Ashkenas' [Underscore][underscore] are all good examples.
 
-Udon is cast in a similar mould to the above. It aims to provide basic support
-for functional programming in JavaScript, initially by porting some elements of
-Haskell's `Data.List` library.
+[Udon][udon] is cast in a similar mould to the above. It aims to provide basic
+support for functional programming in JavaScript, initially by porting some
+elements of Haskell's `Data.List` library.
+
+[udon]:  http://extralogical.net/projects/udon/
 
 
 Function operations
