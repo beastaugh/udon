@@ -12,7 +12,7 @@ Downloads
 Current version: **1.0.0**.
 
 * [Development version](./downloads/udon-1.0.0.js)
-* [Production version](./downloads/udon-1.0.0-min.js) 8.4kb packed, 2.4kb
+* [Production version](./downloads/udon-1.0.0-min.js) 1.7kb packed, 0.7kb
   gzipped
 
 
