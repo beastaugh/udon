@@ -2,7 +2,7 @@
 title: Udon | Practical functional programming in JavaScript
 ---
 
-[Udon][udon] is a library to provide basic support for functional programming
+[Udon][udon] is a library providing basic support for functional programming
 idioms in JavaScript.
 
 
