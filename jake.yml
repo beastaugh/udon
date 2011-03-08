@@ -19,8 +19,17 @@ packages:
       requires:
       provides:
         - Udon
+        - Udon.ncurry
+        - Udon.curry
+        - Udon.compose
         - Udon.foldl
         - Udon.foldr
         - Udon.map
         - Udon.filter
+        - Udon.any
+        - Udon.all
+        - Udon.none
+        - Udon.partition
         - Udon.unfoldr
+        - Udon.zip
+        - Udon.zipWith
