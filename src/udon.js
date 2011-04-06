@@ -114,3 +114,8 @@ Udon.zipWith = function(f, xs, ys) {
     while (i--) zs[i] = f(xs[i], ys[i]);
     return zs;
 };
+
+Udon.each = function(f, xs) {
+    var i = xs.length;
+    while (i--) f(xs[i]);
+};

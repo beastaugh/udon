@@ -258,5 +258,19 @@ Udon.zipWith(function(a, b) {
 // -> [4,10,18]
 ~~~
 
+<h3 id="api-each"><code>each</code></h3>
+
+It applies a given function to every element in a list without changing the list or returning a new one
+
+~~~{.JavaScript}
+Udon.each(function(a) {
+  console.log(a)
+}, [1,2,3]);
+// -> 
+// 3
+// 2
+// 1
+~~~
+
 [udon]:         https://github.com/beastaugh/udon
 [fold]:         http://en.wikipedia.org/wiki/Fold_(higher-order_function)

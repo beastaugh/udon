@@ -199,6 +199,17 @@ applying a function to each pair of elements from two lists.
     }, [1,2,3], [4,5,6]);
     // -> [4,10,18]
 
+### `each`
+
+It applies a given function to every element in a list without changing the list or returning a new one
+
+    Udon.each(function(a) {
+      console.log(a)
+    }, [1,2,3]);
+    // -> 
+    // 3
+    // 2
+    // 1
 
 [ojay]:         http://ojay.othermedia.org/
 [underscore]:   http://documentcloud.github.com/underscore/
