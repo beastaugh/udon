@@ -194,7 +194,7 @@ paired up with one from the longer list will be discarded.
 The `zipWith` function is a generalisation of `zip`: it returns the result of
 applying a function to each pair of elements from two lists.
 
-    zipWith(function(a, b) {
+    Udon.zipWith(function(a, b) {
         return a * b;
     }, [1,2,3], [4,5,6]);
     // -> [4,10,18]
