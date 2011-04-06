@@ -123,6 +123,8 @@ Returns the result of applying a given function to each element of a list.
 
 ### `filter`
 
+*Alias: select*
+
 Returns the elements of a list which satisfy some predicate.
 
     Udon.filter(function(n) {

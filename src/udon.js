@@ -73,6 +73,8 @@ Udon.filter = function(f, xs) {
     return ys;
 };
 
+Udon.select = Udon.filter;
+
 Udon.any = function(p, xs) {
     var i = xs.length;
     while (i--) if (p(xs[i])) return true;

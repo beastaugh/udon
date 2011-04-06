@@ -166,6 +166,8 @@ Udon.map(function(n) {
 
 <h3 id="api-filter"><code>filter</code></h3>
 
+*Alias: select*
+
 Returns the elements of a list which satisfy some predicate.
 
 ~~~{.JavaScript}
