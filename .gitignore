@@ -4,3 +4,4 @@ site/_cache
 site/udon
 site/*.hi
 site/*.o
+test
