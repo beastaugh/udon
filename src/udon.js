@@ -49,6 +49,9 @@ Udon.foldl = function(f, z, xs) {
     return z;
 };
 
+Udon.reduce = Udon.foldl;
+Udon.inject = Udon.foldl;
+
 Udon.foldr = function(f, z, xs) {
     var i = xs.length;
     while (i--) z = f(xs[i], z);

@@ -83,6 +83,8 @@ Haskell etc.). They are, however, close enough for most practical purposes.
 
 ### `foldl`
 
+*Aliases: reduce, inject*
+
 Both fold functions accept a function and use it to reduce a list to another
 value. For example, you could use it to implement a `sum` function which adds
 all the elements of a list together:
