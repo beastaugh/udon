@@ -243,7 +243,7 @@ lengths, any elements left over after each element in the shorter list has been
 paired up with one from the longer list will be discarded.
 
 ~~~{.JavaScript}
-zip([1,2,3], ["a", "b", "c"]); // -> [[1, "a"], [2, "b"], [3, "c"]]
+Udon.zip([1,2,3], ["a", "b", "c"]); // -> [[1, "a"], [2, "b"], [3, "c"]]
 ~~~
 
 <h3 id="api-zipwith"><code>zipWith</code></h3>
