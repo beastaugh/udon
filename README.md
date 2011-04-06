@@ -71,7 +71,7 @@ function pipeline will be made partially applicable.
     
     var ceilMax = Udon.compose([Math.ceil, Math.max], 2);
     
-    roundMax(0.7)(1.1); // -> 2
+    ceilMax(0.7)(1.1); // -> 2
 
 
 List operations
