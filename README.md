@@ -4,14 +4,17 @@ Udon
 Functional programming has a number of common, idiomatic operations: maps,
 folds, currying and so on. There are a number of excellent JavaScript libraries
 which provide access to these fundamentals in a more-or-less functional style.
-[Ojay][ojay]'s core extensions, Oliver Steele's [Functional][functionaljs] and
-Jeremy Ashkenas' [Underscore][underscore] are all good examples.
+[Ojay]'s core extensions, Oliver Steele's [Functional] and Jeremy Ashkenas'
+[Underscore] are all good examples.
 
-[Udon][udon] is cast in a similar mould to the above. It aims to provide basic
+[Udon] is cast in a similar mould to the above. It aims to provide basic
 support for functional programming in JavaScript, initially by porting some
 elements of Haskell's `Data.List` library.
 
-[udon]:  http://extralogical.net/projects/udon/
+[Udon]:       http://extralogical.net/projects/udon/
+[Ojay]:       http://ojay.othermedia.org/
+[Underscore]: http://documentcloud.github.com/underscore/
+[Functional]: http://osteele.com/sources/javascript/functional/
 
 
 Function operations
@@ -110,6 +113,9 @@ into a singly-linked list.
 
 You can read more about folds [on Wikipedia][fold].
 
+[fold]: http://en.wikipedia.org/wiki/Fold_(higher-order_function)
+
+
 ### `map`
 
 Returns the result of applying a given function to each element of a list.
@@ -198,9 +204,3 @@ applying a function to each pair of elements from two lists.
         return a * b;
     }, [1,2,3], [4,5,6]);
     // -> [4,10,18]
-
-
-[ojay]:         http://ojay.othermedia.org/
-[underscore]:   http://documentcloud.github.com/underscore/
-[functionaljs]: http://osteele.com/sources/javascript/functional/
-[fold]:         http://en.wikipedia.org/wiki/Fold_(higher-order_function)

@@ -2,8 +2,10 @@
 title: Udon | Practical functional programming in JavaScript
 ---
 
-[Udon][udon] is a library providing basic support for functional programming
-idioms in JavaScript.
+[Udon] is a library providing basic support for functional programming idioms
+in JavaScript.
+
+[Udon]: https://github.com/beastaugh/udon
 
 
 Downloads
@@ -151,6 +153,8 @@ var array2list = function(arr) {
 
 You can read more about folds [on Wikipedia][fold].
 
+[fold]: http://en.wikipedia.org/wiki/Fold_(higher-order_function)
+
 <h3 id="api-map"><code>map</code></h3>
 
 Returns the result of applying a given function to each element of a list.
@@ -257,6 +261,3 @@ Udon.zipWith(function(a, b) {
 }, [1,2,3], [4,5,6]);
 // -> [4,10,18]
 ~~~
-
-[udon]:         https://github.com/beastaugh/udon
-[fold]:         http://en.wikipedia.org/wiki/Fold_(higher-order_function)
