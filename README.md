@@ -214,6 +214,39 @@ It applies a given function to every element in a list without changing the list
     // 3
     // 2
     // 1
+    
+### `max`
+
+Transforms a list into its highest value.
+
+     Udon.max( [2,3,5,4] )
+     //-> 5
+     
+     Udon.max( ['a','b','x','c','d'] )
+     //-> "x"
+     
+It accepts an optional function argument; this is applied to every value before comparing it, in order to work with objects for example:
+
+     Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
+     // -> { age: 60, name: "curly" }
+
+### `min`
+
+Transforms a list into its lowest value.
+
+      Udon.min( [3,2,5,4] )
+      //-> 2
+      
+      Udon.min(['b','x','a','c','d'] )
+      //-> "a"
+
+It accepts an optional function argument; this is applied to every value before comparing it, in order to sort work with for example:
+
+      Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
+      // -> { age: 40, name: "moe"}
+
+
+
 
 [ojay]:         http://ojay.othermedia.org/
 [underscore]:   http://documentcloud.github.com/underscore/
