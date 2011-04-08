@@ -234,6 +234,33 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('partition', function() {
+        it('`partition` should partition the elements of an array into arrays of those satisfying and failing to satisfy some predicate', function() { with(this) {
+            var isNegative = function(n) { return n < 0; };
+            
+            assertEqual([[-1, -4], [0, 5, 2]],
+                Udon.partition(isNegative, [0, -1, 5, 2, -4]));
+        }});
+        
+        it('`partition` should return an empty first array if no element satisfies the given predicate', function() { with(this) { 
+            var isNull = function(x) { return x === null; };
+            
+            assertEqual([[], ["foo", "bar"]],
+                Udon.partition(isNull, ["foo", "bar"]));
+        }});
+        
+        it('`partition` should return an empty second array if every element satisfies the given predicate', function() { with(this) {
+            var isString = function(x) { return typeof x == 'string'; };
+            
+            assertEqual([["aaa", "bbb", "ccc"], []],
+                Udon.partition(isString, ["aaa", "bbb", "ccc"]));
+        }});
+        
+        it('`partition` should return a pair of empty arrays if supplied with an empty array', function() { with(this) {
+            assertEqual([[], []], Udon.partition(id, []));
+        }});
+    });
+    
     describe('zip', function() {
         it('`zip` should create a list of pairs from a pair of lists', function() { with (this) {
             var z1 = Udon.zip([1, 2, 3], [1, 2, 3]),
