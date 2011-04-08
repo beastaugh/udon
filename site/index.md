@@ -184,7 +184,7 @@ Check whether any element of a list satisfies some predicate.
 ~~~{.JavaScript}
 Udon.any(function(regex) {
     return regex.exec("http://");
-}, [/[a-z]+:\/\//, /^ftp:/]);
+}, [new RegExp("[a-z]+:\/\/"), new RegExp("^ftp:/")]);
 // -> true
 ~~~
 

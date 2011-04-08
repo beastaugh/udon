@@ -188,9 +188,9 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
     
     describe('any', function() {
         it('`any` should return true if one element of an array satisfies a predicate', function() { with(this) {
-            var over5 = function(n) { return n > 5; };
+            var matchesHttp = function(regex) { return regex.exec("http://"); };
             
-            assert(Udon.any(over5, [7, 1, 2, -5, 0]));
+            assert(Udon.any(matchesHttp, [new RegExp("[a-z]+:\/\/"), new RegExp("^ftp:/")]));
         }});
         
         it('`any` should return false if no elements of an array satisfy a predicate', function() { with(this) {
