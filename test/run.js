@@ -1,17 +1,11 @@
-JSCLASS_PATH = 'vendor/jsclass';
-
-if (typeof require == 'function') {
-    require('../' + JSCLASS_PATH + '/loader');
-} else {
-    load(JSCLASS_PATH + '/loader.js');
-}
+var CWD = (typeof CWD === 'undefined') ? '.' : CWD;
 
 JS.Packages(function() { with(this) {
     autoload(/^(.*)Spec$/, {
-        from: 'test/specs',
+        from: CWD + '/test/specs',
         require: '$1'});
     
-    file('src/udon.js')
+    file(CWD + '/src/udon.js')
         .provides('Udon')
         .requires('JS.Class');
 }});
