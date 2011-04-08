@@ -188,23 +188,37 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
     
     describe('any', function() {
         it('should return true if one element of an array satisfies a predicate', function() { with(this) {
-            var over5 = function(n) {
-                return n > 5;
-            };
+            var over5 = function(n) { return n > 5; };
             
             assert(Udon.any(over5, [7, 1, 2, -5, 0]));
         }});
         
         it('should return false if no elements of an array satisfy a predicate', function() { with(this) {
-            var isOdd = function(n) {
-                return n % 2 == 1;
-            };
+            var isOdd = function(n) { return n % 2 == 1; };
             
             assert(!Udon.any(isOdd, [0, 2, 4, 6, 8, 10, 12]));
         }});
         
         it('should return false if the supplied array is empty', function() { with(this) {
             assert(!Udon.any(id, []));
+        }});
+    });
+    
+    describe('all', function() {
+        it('should return true if every element of an array satisfies a predicate', function() { with(this) {
+            var isEven = function(n) { return n % 2 == 0; };
+            
+            assert(Udon.all(isEven, [2, 4, 8, 16]));
+        }});
+        
+        it('should return false if any element of an array fails to satisfy a predicate', function() { with(this) {
+            var isPositive = function(n) { return n > 0; };
+            
+            assert(!Udon.all(isPositive, [17, 9, 4, -2, 1, 0]));
+        }});
+        
+        it('should return true if the supplied array is empty', function() { with(this) {
+            assert(Udon.all(id, []));
         }});
     });
     
