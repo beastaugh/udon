@@ -149,6 +149,22 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('map', function() {
+        it('should return an array of the same length as that given', function() { with(this) {
+            var zs = [null, null, null, null];
+            
+            assertEqual(zs.length, Udon.map(id, zs).length);
+        }});
+        
+        it('should return an empty array when given one', function() { with(this) {
+            assertEqual([], Udon.map(id, []));
+        }});
+        
+        it('should apply a function to each element of an array', function() { with(this) {
+            assertEqual([1, 2, 3, 4], Udon.map(Math.floor, [1.7, 2.4, 3.9, 4.1]));
+        }});
+    });
+    
     describe('filter', function() {
         it('is the identity on arrays when passed the identity function', function() { with (this) {
             var zs = [5, 4, 3, 2, 1];
