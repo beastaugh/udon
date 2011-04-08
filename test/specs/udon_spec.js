@@ -161,6 +161,13 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             
             assertEqual([], Udon.filter(nid, xs));
         }});
+        
+        it('only returns those elements to which a predicate applies', function() { with(this) {
+            var zs         = [-1, 22, -17, 15],
+                isNegative = function(n) { return n < 0; };
+            
+            assertEqual([-1, -17], Udon.filter(isNegative, zs));
+        }});
     });
     
     describe('zip', function() {
