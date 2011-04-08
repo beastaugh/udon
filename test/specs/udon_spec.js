@@ -1,11 +1,26 @@
 JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
     before(function() {
-        this.Udon = JS.ENV.Udon;
-        this.add  = function(a, b) { return a + b; };
-        this.cons = function(car, cdr) { return [car].concat(cdr); };
-        this.pair = function(x, y) { return [x, y]; };
-        this.id   = function(x) { return x === x; };
-        this.nid  = function(x) { return x !== x; };
+        this.Udon     = JS.ENV.Udon;
+        this.add      = function(a, b) { return a + b; };
+        this.multiply = function(a, b) { return a * b; };
+        this.cons     = function(car, cdr) { return [car].concat(cdr); };
+        this.rcons    = function(car, cdr) { return [cdr].concat(car); };
+        this.pair     = function(x, y) { return [x, y]; };
+        this.id       = function(x) { return x === x; };
+        this.nid      = function(x) { return x !== x; };
+        this.sum      = function(ns) {
+            var n = 0, m = ns.length;
+            while (m--) n += ns[m];
+            return n;
+        };
+        this.product  = function(ns) {
+            var n = 1, m = ns.length;
+            while (m--) n *= ns[m];
+            return n;
+        };
+        this.reverse  = function(ns) {
+            return ns.concat([]).reverse();
+        };
     });
     
     describe('curry', function() {
@@ -65,6 +80,29 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('foldl', function() {
+        it('can be used to implement sum', function() { with(this) {
+            var ys = [9, 7, 4, 18, 27, 91, 412];
+            
+            assertEqual(sum(ys), Udon.foldl(add, 0, ys));
+            assertEqual(0, Udon.foldl(add, 0, []));
+        }});
+        
+        it('can be used to implement product', function() { with(this) {
+            var ys = [24, 17, 61, 12];
+            
+            assertEqual(product(ys), Udon.foldl(multiply, 1, ys));
+            assertEqual(1, Udon.foldl(multiply, 1, []));
+        }});
+        
+        it('is equivalent to reverse on arrays when passed rcons and []', function() { with(this) {
+            var ys = ['foo', 'bar', 'baz'];
+            
+            assertEqual(reverse(ys), Udon.foldl(rcons, [], ys));
+            assertEqual([], Udon.foldl(rcons, [], []));
+        }});
+    });
+    
     describe('foldr', function() {
         it('is the identity on arrays when passed cons and []', function() { with (this) {
             var xs = [1, 2, 3, 4];
@@ -77,6 +115,37 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
                 ps = [5, [10, [15, [20, []]]]];
             
             assertEqual(ps, Udon.foldr(pair, [], ys));
+        }});
+        
+        it('can be used to implement map', function() { with(this) {
+            var ys    = [0.7, 5.3, 7.1, 3.9],
+                fCons = function(f) {
+                    return function(car, cdr) {
+                        return [f(car)].concat(cdr);
+                    };
+                };
+            
+            assertEqual(Udon.map(Math.floor, ys),
+                Udon.foldr(fCons(Math.floor), [], ys));
+        }});
+        
+        it('can turn arrays into lists', function() { with(this) {
+            var list = {car: 1, cdr: {car: 2, cdr: {car: null, cdr: null}}},
+                cell = function(head, tail) { return {car: head, cdr: tail}; };
+            
+            assertEqual(list, Udon.foldr(cell, {car: null, cdr: null}, [1, 2]));
+        }});
+        
+        it('can be used to implement maximum', function() { with(this) {
+            var ys = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(9, Udon.foldr(Math.max, -Infinity, ys));
+        }});
+        
+        it('can be used to implement minimum', function() { with(this) {
+            var ys = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(1, Udon.foldr(Math.min, Infinity, ys));
         }});
     });
     
