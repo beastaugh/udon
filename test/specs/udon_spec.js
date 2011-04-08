@@ -44,6 +44,27 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('compose', function() {
+        it('should produce the same result as directly applying the composed functions', function() { with(this) {
+            var tcs = Udon.compose([Math.sin, Math.cos, Math.tan]);
+            
+            assertEqual(Math.sin(Math.cos(Math.tan(0.7))), tcs(0.7));
+        }});
+        
+        it('should accept an option arity argument making the composed function partially applicable', function() { with(this) {
+            var ceilMax  = Udon.compose([Math.ceil, Math.max], 2),
+                floorMin = Udon.compose([Math.floor, Math.min], 3);
+            
+            assertEqual(2, ceilMax(0.7)(1.1));
+            assertEqual(1, ceilMax(0.7)(0.4));
+            assertEqual(3, ceilMax(1.5)(2.4));
+            
+            assertEqual(4, floorMin(4.5, 5.2, 7.4));
+            assertEqual(6, floorMin(6.1, 9.8, 6.2));
+            assertEqual(1, floorMin(1.3, 6.2, 4.9));
+        }});
+    });
+    
     describe('foldr', function() {
         it('is the identity on arrays when passed cons and []', function() { with (this) {
             var xs = [1, 2, 3, 4];
