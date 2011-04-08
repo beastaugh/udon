@@ -2,7 +2,6 @@
 module Main where
 
 import Control.Arrow ((>>>))
-import Control.Monad (forM_)
 
 import Hakyll
 
@@ -21,12 +20,9 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
     
-    -- Documentation pages
-    forM_ [ "index.md"
-          , "license.md"
-          ] $ \page -> do
-        match page $ do
-            route   $ setExtension ".html"
-            compile $ pageCompiler
-                >>> applyTemplateCompiler "templates/default.html"
-                >>> relativizeUrlsCompiler
+    -- Documentation
+    match "index.md" $ do
+        route   $ setExtension ".html"
+        compile $ pageCompiler
+            >>> applyTemplateCompiler "templates/default.html"
+            >>> relativizeUrlsCompiler
