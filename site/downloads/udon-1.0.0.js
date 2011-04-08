@@ -4,20 +4,19 @@ Udon._slice = Array.prototype.slice;
 
 Udon.ncurry = function(n) {
     if (typeof n != 'number' || n < 2) n = 2;
-    return function(f) {
-        var a1 = Udon._slice.call(arguments, 1),
-        accumulator = function() {
+    var curry = function(f) {
+        var a1 = Udon._slice.call(arguments, 1);
+        return function() {
             var a2 = a1.concat(Udon._slice.call(arguments, 0));
             if (a2.length < n) {
                 a2.unshift(f);
-                a1 = a2;
-                return accumulator;
+                return curry.apply(null, a2);
             } else {
                 return f.apply(null, a2);
             }
         };
-        return accumulator;
     };
+    return curry;
 };
 
 Udon.curry = function(f) {
