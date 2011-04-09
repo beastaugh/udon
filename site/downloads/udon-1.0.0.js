@@ -48,6 +48,9 @@ Udon.foldl = function(f, z, xs) {
     return z;
 };
 
+Udon.reduce = Udon.foldl;
+Udon.inject = Udon.foldl;
+
 Udon.foldr = function(f, z, xs) {
     var i = xs.length;
     while (i--) z = f(xs[i], z);
@@ -68,6 +71,8 @@ Udon.filter = function(f, xs) {
     }
     return ys;
 };
+
+Udon.select = Udon.filter;
 
 Udon.any = function(p, xs) {
     var i = xs.length;
@@ -113,3 +118,17 @@ Udon.zipWith = function(f, xs, ys) {
     while (i--) zs[i] = f(xs[i], ys[i]);
     return zs;
 };
+
+Udon.max = function(xs, f) {
+  var f = (f == undefined) ? function(a){ return a } : f;
+  return Udon.foldl(function(a, b) {
+    return f(a) > f(b) ? a : b
+  }, 0 , xs);
+}
+
+Udon.min = function(xs, f) {
+  var f = (f == undefined) ? function(a){ return a } : f;
+  return Udon.foldl(function(a, b) {
+    return f(a) < f(b) ? a : b
+  }, Infinity , xs);
+}
