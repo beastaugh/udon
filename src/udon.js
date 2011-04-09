@@ -119,11 +119,6 @@ Udon.zipWith = function(f, xs, ys) {
     return zs;
 };
 
-Udon.each = function(f, xs) {
-    var i = xs.length;
-    while (i--) f(xs[i]);
-};
-
 Udon.max = function(xs, f) {
   var f = (f == undefined) ? function(a){ return a } : f;
   return Udon.foldl(function(a, b) {
