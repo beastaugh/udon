@@ -1,7 +1,7 @@
 pkg
 site/_site
 site/_cache
-site/udon
+site/site
 site/*.hi
 site/*.o
 test

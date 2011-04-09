@@ -2,8 +2,10 @@
 title: Udon | Practical functional programming in JavaScript
 ---
 
-[Udon][udon] is a library providing basic support for functional programming
-idioms in JavaScript.
+[Udon] is a library providing basic support for functional programming idioms
+in JavaScript.
+
+[Udon]: https://github.com/beastaugh/udon
 
 
 Downloads
@@ -120,8 +122,6 @@ Haskell etc.). They are, however, close enough for most practical purposes.
 
 <h3 id="api-foldl"><code>foldl</code></h3>
 
-*Aliases: reduce, inject*
-
 Both fold functions accept a function and use it to reduce a list to another
 value. For example, you could use it to implement a `sum` function which adds
 all the elements of a list together:
@@ -153,6 +153,8 @@ var array2list = function(arr) {
 
 You can read more about folds [on Wikipedia][fold].
 
+[fold]: http://en.wikipedia.org/wiki/Fold_(higher-order_function)
+
 <h3 id="api-map"><code>map</code></h3>
 
 Returns the result of applying a given function to each element of a list.
@@ -165,8 +167,6 @@ Udon.map(function(n) {
 ~~~
 
 <h3 id="api-filter"><code>filter</code></h3>
-
-*Alias: select*
 
 Returns the elements of a list which satisfy some predicate.
 
@@ -184,7 +184,7 @@ Check whether any element of a list satisfies some predicate.
 ~~~{.JavaScript}
 Udon.any(function(regex) {
     return regex.exec("http://");
-}, [/[a-z]+:\/\//, /^ftp:/]);
+}, [new RegExp("[a-z]+:\/\/"), new RegExp("^ftp:/")]);
 // -> true
 ~~~
 
@@ -261,58 +261,3 @@ Udon.zipWith(function(a, b) {
 }, [1,2,3], [4,5,6]);
 // -> [4,10,18]
 ~~~
-
-<h3 id="api-each"><code>each</code></h3>
-
-It applies a given function to every element in a list without changing the list or returning a new one
-
-~~~{.JavaScript}
-Udon.each(function(a) {
-  console.log(a)
-}, [1,2,3]);
-// -> 
-// 3
-// 2
-// 1
-~~~
-
-<h3 id="api-max"><code>max</code></h3>
-
-Transforms a list into its highest value.
-
-~~~{.JavaScript}
-Udon.max( [2,3,5,4] )
-//-> 5
-
-Udon.max( ['a','b','x','c','d'] )
-//-> "x"
-~~~
-     
-It accepts an optional function argument; this is applied to every value before comparing it, in order to work with objects for example:
-
-~~~{.JavaScript}
-Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
-// -> { age: 60, name: "curly" }
-~~~
-
-<h3 id="api-min"><code>min</code></h3>
-
-Transforms a list into its lowest value.
-
-~~~{.JavaScript}
-Udon.min( [3,2,5,4] )
-//-> 2
-
-Udon.min(['b','x','a','c','d'] )
-//-> "a"
-~~~
-
-It accepts an optional function argument; this is applied to every value before comparing it, in order to sort work with for example:
-
-~~~{.JavaScript}
-Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
-// -> { age: 40, name: "moe"}
-~~~
-
-[udon]:         https://github.com/beastaugh/udon
-[fold]:         http://en.wikipedia.org/wiki/Fold_(higher-order_function)
