@@ -298,6 +298,6 @@ Udon.min(['b','x','a','c','d'] )
 It accepts an optional function argument; this is applied to every value before comparing it, in order to sort work with for example:
 
 ~~~{.JavaScript}
-Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
+Udon.min([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
 // -> { age: 40, name: "moe"}
 ~~~

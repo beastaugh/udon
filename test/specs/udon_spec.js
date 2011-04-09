@@ -304,5 +304,23 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(4,
                 Udon.max([1,4,3,1,2]));
         }});
+        
+        it('`max` should return the highest value in a list of objects with a given funtion', function() { with (this) {
+            assertEqual({ age: 60, name: "curly" },
+                Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age }));
+        }});
+    });
+    
+    describe('max', function() {
+        it('`max` should return the highest value in a list', function() { with (this) {
+            assertEqual(2,
+                Udon.min( [3,2,5,4] ));
+        }});
+        
+        it('`max` should return the highest value in a list of objects with a given funtion', function() { with (this) {
+            assertEqual({ age: 40, name: "moe"},
+                Udon.min([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age }));
+        }});
+        
     });
 }});
