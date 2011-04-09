@@ -4,5 +4,4 @@ site/_cache
 site/site
 site/*.hi
 site/*.o
-test
 .DS_Store
