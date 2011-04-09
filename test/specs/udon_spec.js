@@ -298,4 +298,11 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
                 Udon.zipWith(pair, ['a', 'b', 'c'], [5, 10, 20]));
         }});
     });
+    
+    describe('max', function() {
+        it('`max` should return the highest value in a list', function() { with (this) {
+            assertEqual(4,
+                Udon.max([1,4,3,1,2]));
+        }});
+    });
 }});

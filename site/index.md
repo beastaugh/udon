@@ -45,6 +45,8 @@ API summary
     - [`unfoldr`](#api-unfoldr)
     - [`zip`](#api-zip)
     - [`zipWith`](#api-zipwith)
+    - [`max`](#api-max)
+    - [`min`](#api-min)
 
 
 <h2 id="api-function-operations">Function operations</h2>
@@ -260,4 +262,42 @@ Udon.zipWith(function(a, b) {
     return a * b;
 }, [1,2,3], [4,5,6]);
 // -> [4,10,18]
+~~~
+
+<h3 id="api-max"><code>max</code></h3>
+
+Transforms a list into its highest value.
+
+~~~{.JavaScript}
+Udon.max( [2,3,5,4] )
+//-> 5
+
+Udon.max( ['a','b','x','c','d'] )
+//-> "x"
+~~~
+     
+It accepts an optional function argument; this is applied to every value before comparing it, in order to work with objects for example:
+
+~~~{.JavaScript}
+Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
+// -> { age: 60, name: "curly" }
+~~~
+
+<h3 id="api-min"><code>min</code></h3>
+
+Transforms a list into its lowest value.
+
+~~~{.JavaScript}
+Udon.min( [3,2,5,4] )
+//-> 2
+
+Udon.min(['b','x','a','c','d'] )
+//-> "a"
+~~~
+
+It accepts an optional function argument; this is applied to every value before comparing it, in order to sort work with for example:
+
+~~~{.JavaScript}
+Udon.max([{name : 'moe', age : 40}, {name : 'larry', age : 50}, {name : 'curly', age : 60}], function(a){ return a.age });
+// -> { age: 40, name: "moe"}
 ~~~
