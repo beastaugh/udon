@@ -1,0 +1,12 @@
+Udon changelog
+==============
+
+Version 1.1.0
+-------------
+
+* Added `foldl1`, `maximum`, `minimum`, `maximumBy` and `minimumBy` functions.
+
+Version 1.0.0
+-------------
+
+* Initial release.

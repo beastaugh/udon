@@ -23,7 +23,12 @@ packages:
         - Udon.curry
         - Udon.compose
         - Udon.foldl
+        - Udon.foldl1
         - Udon.foldr
+        - Udon.maximum
+        - Udon.minimum
+        - Udon.maximumBy
+        - Udon.minimumBy
         - Udon.map
         - Udon.filter
         - Udon.any

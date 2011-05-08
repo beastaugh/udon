@@ -11,10 +11,10 @@ in JavaScript.
 Downloads
 ---------
 
-Current version: **1.0.0**.
+Current version: **1.1.0**.
 
-* [Development version](./downloads/udon-1.0.0.js)
-* [Production version](./downloads/udon-1.0.0-min.js) 1.7kb packed, 0.7kb
+* [Development version](./downloads/udon-1.1.0.js)
+* [Production version](./downloads/udon-1.1.0-min.js) 2.1kb packed, 0.7kb
   gzipped
 
 
@@ -35,7 +35,12 @@ API summary
     - [`compose`](#api-compose)
 * [List operations](#api-list-operations)
     - [`foldl`](#api-foldl)
+    - [`foldl1`](#api-foldl1)
     - [`foldr`](#api-foldr)
+    - [`maximum`](#api-maximum)
+    - [`minimum`](#api-minimum)
+    - [`maximumBy`](#api-maximumBy)
+    - [`minimumBy`](#api-minimumBy)
     - [`map`](#api-map)
     - [`filter`](#api-filter)
     - [`any`](#api-any)
@@ -134,6 +139,20 @@ var sum = function(ns) {
 };
 ~~~
 
+<h3 id="api-foldl1"><code>foldl1</code></h3>
+
+This is a version of `foldl` which uses the first element of the supplied array
+as the initial element. It thus requires the array to be nonempty.
+
+~~~{.JavaScript}
+var join = function(a, b) {
+    return a.toString() + '-' + b.toString();
+};
+
+Udon.foldl1(join, [2011, 05, 08]);
+// -> "2011-05-08"
+~~~
+
 <h3 id="api-foldr"><code>foldr</code></h3>
 
 As the name implies, `foldl` is a left-associative function, which `foldr` is
@@ -154,6 +173,61 @@ var array2list = function(arr) {
 You can read more about folds [on Wikipedia][fold].
 
 [fold]: http://en.wikipedia.org/wiki/Fold_(higher-order_function)
+
+<h3 id="api-maximum"><code>maximum</code></h3>
+
+Selects the largest number from an array. It uses `Math.max` under the hood so
+it won't work for e.g. strings. Use [`Udon.maximumBy`](#api-maximumBy) if you
+need your own comparison function.
+
+~~~{.JavaScript}
+Udon.maximum([1, 3, 2, 17, 12]);
+// -> 17
+~~~
+
+<h3 id="api-minimum"><code>minimum</code></h3>
+
+Selects the smallest number from an array. It uses `Math.min` under the hood so
+it won't work for e.g. strings. Use [`Udon.minimumBy`](#api-minimumBy) if you
+need your own comparison function.
+
+~~~{.JavaScript}
+Udon.maximum([1, 3, 2, 17, 12]);
+// -> 17
+~~~
+
+<h3 id="api-maximumBy"><code>maximumBy</code></h3>
+
+Uses a given comparison function to select the largest element of an array.
+Comparison functions should take two arguments, and return `0` if they are
+considered equal, `1` if the first argument is greater than the second, and
+`-1` if the second argument is greater than the first.
+
+~~~{.JavaScript}
+var longerThan = function(x, y) {
+    if (x.length === y.length) {
+        return 0;
+    } else if (x.length > y.length) {
+        return 1;
+    } else {
+        return -1;
+    }
+};
+
+Udon.maximumBy(longerThan, ["foo", "foobar", "foobarbaz"]);
+// -> "foobarbaz"
+~~~
+
+<h3 id="api-minimumBy"><code>minimumBy</code></h3>
+
+Uses a given comparison function to select the smallest element of an array.
+Comparison functions should operate the same way as those given to
+[`maximumBy`](#api-maximumBy).
+
+~~~{.JavaScript}
+Udon.minimumBy(longerThan, ["foo", "foobar", "foobarbaz"]);
+// -> "foo"
+~~~
 
 <h3 id="api-map"><code>map</code></h3>
 

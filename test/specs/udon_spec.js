@@ -103,6 +103,16 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('foldl1', function() {
+        it('`foldl1` can be used to implement concatenation', function() { with(this) {
+            var concat = function(a, b) {
+                return a.toString() + b.toString();
+            };
+            
+            assertEqual("194317", Udon.foldl1(concat, [19, 4, 317]));
+        }});
+    });
+    
     describe('foldr', function() {
         it('`foldr` is the identity on arrays when passed cons and []', function() { with (this) {
             var xs = [1, 2, 3, 4];
@@ -146,6 +156,59 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             var ys = [1, 2, 4, 9, 3, 7];
             
             assertEqual(1, Udon.foldr(Math.min, Infinity, ys));
+        }});
+    });
+    
+    describe('maximum', function() {
+        it('`maximum` should return the largest number in an array', function() { with(this) {
+            var ns = [4, 1, 7, 12, -4, 0, 8];
+            
+            assertEqual(12, Udon.maximum(ns));
+        }});
+    });
+    
+    describe('minimum', function() {
+        it('`minimum` should return the smallest number in an array', function() { with(this) {
+            var ns = [4, 1, 7, 12, -4, 0, 8];
+            
+            assertEqual(-4, Udon.minimum(ns));
+        }});
+    });
+    
+    describe('maximumBy', function() {
+        it('`maximumBy` should return the maximum of an array, given some user-defined comparison', function() { with(this) {
+            var nearerZero = function(x, y) {
+                var ax = Math.abs(x),
+                    ay = Math.abs(y);
+                
+                if (ax === ay) {
+                    return 0;
+                } else if (ax > ay) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            };
+            
+            assertEqual(-2, Udon.maximumBy(nearerZero, [12, 15, -5, 7, 4, -2]));
+        }});
+    });
+    
+    describe('minimumBy', function() {
+        it('`minimumBy` should return the minimum of an array, given some user-defined comparison', function() { with(this) {
+            var longerThan = function(a, b) {
+                var lenA = a.length, lenB = b.length;
+                
+                if (lenA === lenB) {
+                    return 0;
+                } else if (lenA > lenB) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            };
+            
+            assertEqual("foo", Udon.minimumBy(longerThan, ["foo", "foobar", "foobarbaz"]));
         }});
     });
     
