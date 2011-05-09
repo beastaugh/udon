@@ -192,8 +192,8 @@ it won't work for e.g. strings. Use [`Udon.minimumBy`](#api-minimumBy) if you
 need your own comparison function.
 
 ~~~{.JavaScript}
-Udon.maximum([1, 3, 2, 17, 12]);
-// -> 17
+Udon.minimum([1, 3, 2, 17, 12]);
+// -> 1
 ~~~
 
 <h3 id="api-maximumBy"><code>maximumBy</code></h3>
