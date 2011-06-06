@@ -99,13 +99,17 @@ Udon.filter = function(f, xs) {
 
 Udon.any = function(p, xs) {
     var i = xs.length;
-    while (i--) if (p(xs[i])) return true;
+    while (i--) {
+        if (p(xs[i])) return true;
+    }
     return false;
 };
 
 Udon.all = function(p, xs) {
     var i = xs.length;
-    while (i--) if (!p(xs[i])) return false;
+    while (i--) {
+        if (!p(xs[i])) return false;
+    }
     return true;
 };
 
