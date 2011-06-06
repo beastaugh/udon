@@ -145,3 +145,5 @@ Udon.zipWith = function(f, xs, ys) {
     while (i--) zs[i] = f(xs[i], ys[i]);
     return zs;
 };
+
+if (typeof module == 'object') module.exports = Udon;
