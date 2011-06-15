@@ -42,6 +42,10 @@ Udon.compose = function(fs, ar) {
         Udon.ncurry(ar)(composed) : composed;
 };
 
+Udon.id = function(x) {
+    return x;
+};
+
 Udon.foldl = function(f, z, xs) {
     var len = xs.length, i;
     for (i = 0; i < len; i++) z = f(z, xs[i]);

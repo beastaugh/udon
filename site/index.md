@@ -33,6 +33,7 @@ API summary
     - [`curry`](#api-curry)
     - [`ncurry`](#api-ncurry)
     - [`compose`](#api-compose)
+    - [`id`](#api-id)
 * [List operations](#api-list-operations)
     - [`foldl`](#api-foldl)
     - [`foldl1`](#api-foldl1)
@@ -116,6 +117,26 @@ function pipeline will be made partially applicable.
 var ceilMax = Udon.compose([Math.ceil, Math.max], 2);
 
 ceilMax(0.7)(1.1); // -> 2
+~~~
+
+
+<h3 id="api-id"><code>id</code></h3>
+
+It's occasionally useful to be able to pass a function that simply returns its
+argument to a higher-order function. `id` is that function.
+
+~~~{.JavaScript}
+Udon.id(5) == 5;
+Udon.id("foobar") == "foobar";
+~~~
+
+Passing `id` to `map` produces a nice fixed point, as we can see from the
+following example where `xs0`, `xs1` and `xs2` are all equivalent.
+
+~~~{.JavaScript}
+var xs0 = [1, 4, 9],
+    xs1 = Udon.id([1, 4, 9]),
+    xs2 = Udon.map(Udon.id, [1, 4, 9]);
 ~~~
 
 

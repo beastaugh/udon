@@ -1,6 +1,11 @@
 Udon changelog
 ==============
 
+Edge
+----
+
+* Added `id` function.
+
 Version 1.1.0
 -------------
 

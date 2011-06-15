@@ -80,6 +80,25 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('id', function() {
+        it('`id` returns the object given to it as an argument', function() { with(this) {
+            assertEqual(1, Udon.id(1));
+            assertEqual("foo", Udon.id("foo"));
+            assertEqual({}, Udon.id({}));
+            assertEqual([1, 2, 3], Udon.id([1, 2, 3]));
+        }});
+        
+        it('`map` passed `id` should be `id` on arrays', function() { with(this) {
+            assertEqual([1, 2, 3], Udon.map(Udon.id, [1, 2, 3]));
+            assertEqual(Udon.id([1, 2, 3]), Udon.map(Udon.id, [1, 2, 3]));
+        }});
+        
+        it('Any function composed with `id` should produce the same output as the uncomposed function', function() { with(this) {
+            assertEqual(6, Udon.compose([Udon.id, sum])([1, 2, 3]));
+            assertEqual(6, Udon.compose([sum, Udon.id])([1, 2, 3]));
+        }});
+    });
+    
     describe('foldl', function() {
         it('`foldl` can be used to implement sum', function() { with(this) {
             var ys = [9, 7, 4, 18, 27, 91, 412];
