@@ -8,7 +8,7 @@
     "description": "Practical functional programming in JavaScript.",
     "keywords":    "functional programming compose curry fold map filter zip",
     
-    "main":        "src/udon.js",
+    "main":        "./src/udon",
     
     "repository": {
         "type": "git",
