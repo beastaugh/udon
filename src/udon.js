@@ -1,5 +1,7 @@
 Udon = (typeof Udon === 'undefined') ? {} : Udon;
 
+if (typeof module == 'object') module.exports = Udon;
+
 Udon._slice = Array.prototype.slice;
 
 Udon.ncurry = function(n) {
@@ -154,5 +156,3 @@ Udon.zipWith = function(f, xs, ys) {
     while (i--) zs[i] = f(xs[i], ys[i]);
     return zs;
 };
-
-if (typeof module == 'object') module.exports = Udon;
