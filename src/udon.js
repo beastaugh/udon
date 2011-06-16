@@ -99,6 +99,15 @@ Udon.reverse = function(xs) {
     return ys;
 };
 
+Udon.intersperse = function(sep, xs) {
+    var i = xs.length;
+    if (i < 2) return xs;
+    i = i * 2 - 1;
+    ys = new Array(i);
+    while (i--) ys[i] = i % 2 === 0 ? xs[Math.floor(i / 2)] : sep;
+    return ys;
+};
+
 Udon.filter = function(f, xs) {
     var ys = [], len = xs.length, i, e;
     for (i = 0; i < len; i++) {

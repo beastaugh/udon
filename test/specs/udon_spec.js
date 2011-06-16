@@ -263,6 +263,25 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('intersperse', function() {
+        it('`intersperse` should return the input array if it is empty or a singleton', function() { with(this) {
+            assertEqual([], Udon.intersperse('a', []));
+            assertEqual(['b'], Udon.intersperse('a', ['b']));
+        }});
+
+        it('`intersperse` should produce the same result as join with that separator when joined with the empty string', function() { with(this) {
+            var xs = ['foo', 'bar', 'baz'];
+
+            assertEqual(xs.join(':'), Udon.intersperse(':', xs).join(''));
+        }});
+
+        it('`intersperse` should intersperse the same separator between all its elements', function() { with(this) {
+            var xs = [2, 4, 6, 8, 10];
+
+            assertEqual([2, 1, 4, 1, 6, 1, 8, 1, 10], Udon.intersperse(1, xs));
+        }});
+    });
+
     describe('filter', function() {
         it('`filter` is the identity on arrays when passed the identity function', function() { with (this) {
             var zs = [5, 4, 3, 2, 1];
