@@ -88,6 +88,15 @@ Udon.map = function(f, xs) {
     return ys;
 };
 
+Udon.reverse = function(xs) {
+    var len = xs.length, ys, i;
+    if (len < 1) return xs;
+    ys = new Array(len);
+    i  = len;
+    while (i--) ys[i] = xs[len - i - 1];
+    return ys;
+};
+
 Udon.filter = function(f, xs) {
     var ys = [], len = xs.length, i, e;
     for (i = 0; i < len; i++) {

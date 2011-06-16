@@ -43,6 +43,7 @@ API summary
     - [`maximumBy`](#api-maximumBy)
     - [`minimumBy`](#api-minimumBy)
     - [`map`](#api-map)
+    - [`reverse`](#api-reverse)
     - [`filter`](#api-filter)
     - [`any`](#api-any)
     - [`all`](#api-all)
@@ -259,6 +260,16 @@ Udon.map(function(n) {
     return n * n;
 }, [1,2,3]);
 // -> [1,4,9]
+~~~
+
+<h3 id="api-reverse"><code>reverse</code></h3>
+
+The `reverse` function provides a safe alternative to the [`reverse` method],
+as it does not mutate the input array.
+
+~~~{.JavaScript}
+Udon.reverse(['a', 'b', 'c', 'd']);
+// -> ['d', 'c', 'b', 'a']
 ~~~
 
 <h3 id="api-filter"><code>filter</code></h3>

@@ -6,8 +6,8 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         this.cons     = function(car, cdr) { return [car].concat(cdr); };
         this.rcons    = function(car, cdr) { return [cdr].concat(car); };
         this.pair     = function(x, y) { return [x, y]; };
-        this.id       = function(x) { return x === x; };
-        this.nid      = function(x) { return x !== x; };
+        this.id       = function(x) { return true; };
+        this.nid      = function(x) { return false; };
         this.sum      = function(ns) {
             var n = 0, m = ns.length;
             while (m--) n += ns[m];
@@ -17,9 +17,6 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             var n = 1, m = ns.length;
             while (m--) n *= ns[m];
             return n;
-        };
-        this.reverse  = function(ns) {
-            return ns.concat([]).reverse();
         };
     });
     
@@ -117,7 +114,7 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         it('`foldl` is equivalent to reverse on arrays when passed rcons and []', function() { with(this) {
             var ys = ['foo', 'bar', 'baz'];
             
-            assertEqual(reverse(ys), Udon.foldl(rcons, [], ys));
+            assertEqual(Udon.reverse(ys), Udon.foldl(rcons, [], ys));
             assertEqual([], Udon.foldl(rcons, [], []));
         }});
     });
@@ -244,6 +241,25 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         
         it('`map` should apply a function to each element of an array', function() { with(this) {
             assertEqual([1, 2, 3, 4], Udon.map(Math.floor, [1.7, 2.4, 3.9, 4.1]));
+        }});
+    });
+    
+    describe('reverse', function() {
+        it('`reverse` should return an array of the same length as that given', function() { with(this) {
+            var zs = [null, null, null, null];
+            
+            assertEqual(zs.length, Udon.reverse(zs).length);
+        }});
+        
+        it('`reverse` should produce an equivalent array to the reverse method', function() { with(this) {
+            var xs = [1, 4, 9, 16],
+                ys = Udon.reverse(xs);
+            
+            assertEqual(xs.reverse(), ys);
+        }});
+        
+        it('`reverse` should return an empty array when given one', function() { with(this) {
+            assertEqual([], Udon.reverse([]));
         }});
     });
     

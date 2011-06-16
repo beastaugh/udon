@@ -4,7 +4,7 @@ Udon changelog
 Edge
 ----
 
-* Added `id` function.
+* Added `id` and `reverse` functions.
 
 Version 1.1.0
 -------------
