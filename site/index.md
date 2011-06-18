@@ -38,6 +38,7 @@ API summary
     - [`foldl`](#api-foldl)
     - [`foldl1`](#api-foldl1)
     - [`foldr`](#api-foldr)
+    - [`concat`](#api-concat)
     - [`maximum`](#api-maximum)
     - [`minimum`](#api-minimum)
     - [`maximumBy`](#api-maximumBy)
@@ -45,6 +46,7 @@ API summary
     - [`map`](#api-map)
     - [`reverse`](#api-reverse)
     - [`intersperse`](#api-intersperse)
+    - [`intercalate`](#api-intercalate)
     - [`filter`](#api-filter)
     - [`any`](#api-any)
     - [`all`](#api-all)
@@ -197,6 +199,17 @@ You can read more about folds [on Wikipedia][fold].
 
 [fold]: http://en.wikipedia.org/wiki/Fold_(higher-order_function)
 
+<h3 id="api-concat"><code>concat</code></h3>
+
+Flattens an array one level.
+
+~~~{.JavaScript}
+Udon.concat([[1, 2], [3, 4]]);
+// [1, 2, 3, 4]
+Udon.concat([[[1, 2], [3, 4]], [[5, 6], [7, 8]]]);
+// [[1, 2], [3, 4], [5, 6], [7, 8]]
+~~~
+
 <h3 id="api-maximum"><code>maximum</code></h3>
 
 Selects the largest number from an array. It uses `Math.max` under the hood so
@@ -281,6 +294,16 @@ method does but without converting the array to a string.
 ~~~{.JavaScript}
 Udon.intersperse(10, [1, 2, 3, 4]);
 // -> [1, 10, 2, 10, 3, 10, 4]
+~~~
+
+<h3 id="api-intercalate"><code>intercalate</code></h3>
+
+Effectively `intersperse` for arrays of arrays, but flattening the resultant
+array one level.
+
+~~~{.JavaScript}
+Udon.intercalate([1, 2, 3], [[10, 20], [30, 40], [50, 60]]);
+// -> [10, 20, 1, 2, 3, 30, 40, 1, 2, 3, 50, 60]
 ~~~
 
 <h3 id="api-filter"><code>filter</code></h3>

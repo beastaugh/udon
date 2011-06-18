@@ -175,6 +175,17 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('concat', function() {
+        it('`concat` flattens an array one level', function() { with(this) {
+            var xs = [1, 2, 3, 4, 5, 6, 7, 8],
+                ys = [[1, 2], [3, 4], [5, 6], [7, 8]],
+                zs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]];
+            
+            assertEqual(xs, Udon.concat(ys));
+            assertEqual(ys, Udon.concat(zs));
+        }});
+    });
+    
     describe('maximum', function() {
         it('`maximum` should return the largest number in an array', function() { with(this) {
             var ns = [4, 1, 7, 12, -4, 0, 8];
@@ -268,20 +279,29 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual([], Udon.intersperse('a', []));
             assertEqual(['b'], Udon.intersperse('a', ['b']));
         }});
-
+        
         it('`intersperse` should produce the same result as join with that separator when joined with the empty string', function() { with(this) {
             var xs = ['foo', 'bar', 'baz'];
-
+            
             assertEqual(xs.join(':'), Udon.intersperse(':', xs).join(''));
         }});
-
+        
         it('`intersperse` should intersperse the same separator between all its elements', function() { with(this) {
             var xs = [2, 4, 6, 8, 10];
-
+            
             assertEqual([2, 1, 4, 1, 6, 1, 8, 1, 10], Udon.intersperse(1, xs));
         }});
     });
-
+    
+    describe('intercalate', function() {
+        it('`intercalate` should intersperse its first arguments between ', function() { with(this) {
+            var xs  = [1, 2, 3],
+                xss = [[10, 20], [30, 40], [50, 60]];
+            
+            assertEqual([10, 20, 1, 2, 3, 30, 40, 1, 2, 3, 50, 60], Udon.intercalate(xs, xss));
+        }});
+    });
+    
     describe('filter', function() {
         it('`filter` is the identity on arrays when passed the identity function', function() { with (this) {
             var zs = [5, 4, 3, 2, 1];

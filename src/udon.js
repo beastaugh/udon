@@ -66,6 +66,12 @@ Udon.foldr = function(f, z, xs) {
     return z;
 };
 
+Udon.concat = function(xs) {
+    return Udon.foldl1(function(ys, zs) {
+        return ys.concat(zs);
+    }, xs);
+};
+
 Udon.maximum = function(xs) {
     return Udon.foldl1(Math.max, xs);
 };
@@ -106,6 +112,10 @@ Udon.intersperse = function(sep, xs) {
     ys = new Array(i);
     while (i--) ys[i] = i % 2 === 0 ? xs[Math.floor(i / 2)] : sep;
     return ys;
+};
+
+Udon.intercalate = function(xs, xss) {
+    return Udon.concat(Udon.intersperse(xs, xss));
 };
 
 Udon.filter = function(f, xs) {
