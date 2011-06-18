@@ -147,6 +147,18 @@ Udon.none = function(p, xs) {
     return !Udon.any(p, xs);
 };
 
+Udon.sum = function(ns) {
+    var i = ns.length, t = 0;
+    while (i--) t += ns[i];
+    return t;
+};
+
+Udon.product = function(ns) {
+    var i = ns.length, t = 1;
+    while (i--) t *= ns[i];
+    return t;
+};
+
 Udon.partition = function(f, xs) {
     var ts = [], fs = [], len = xs.length, i, e;
     for (i = 0; i < len; i++) {

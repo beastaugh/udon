@@ -51,6 +51,8 @@ API summary
     - [`any`](#api-any)
     - [`all`](#api-all)
     - [`none`](#api-none)
+    - [`sum`](#api-sum)
+    - [`product`](#api-product)
     - [`partition`](#api-partition)
     - [`unfoldr`](#api-unfoldr)
     - [`zip`](#api-zip)
@@ -348,6 +350,28 @@ Udon.none(function(c) {
     return c === Math.PI;
 }, [1, 0, -1, Math.LN2, Math.E]);
 // -> true
+~~~
+
+<h3 id="api-sum"><code>sum</code></h3>
+
+Adds the elements of a numeric list together.
+
+~~~{.JavaScript}
+Udon.sum([]);
+// -> 0
+Udon.sum([1, 2, 3, 4]);
+// -> 10
+~~~
+
+<h3 id="api-product"><code>product</code></h3>
+
+Multiplies the elements of a numeric list together.
+
+~~~{.JavaScript}
+Udon.product([]);
+// -> 1
+Udon.sum([1, 2, 3, 4]);
+// -> 24
 ~~~
 
 <h3 id="api-partition"><code>partition</code></h3>

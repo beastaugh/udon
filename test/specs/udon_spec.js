@@ -371,6 +371,26 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('sum', function() {
+        it('`sum` should return 0 when given an empty array', function() { with(this) {
+            assertEqual(0, Udon.sum([]));
+        }});
+        
+        it('`sum` should add the elements of a numeric array', function() { with(this) {
+            assertEqual(10, Udon.sum([1, 2, 3, 4]));
+        }});
+    });
+    
+    describe('product', function() {
+        it('`sum` should return 1 when given an empty array', function() { with(this) {
+            assertEqual(1, Udon.product([]));
+        }});
+        
+        it('`sum` should multiply the elements of a numeric array', function() { with(this) {
+            assertEqual(24, Udon.product([1, 2, 3, 4]));
+        }});
+    });
+    
     describe('partition', function() {
         it('`partition` should partition the elements of an array into arrays of those satisfying and failing to satisfy some predicate', function() { with(this) {
             var isNegative = function(n) { return n < 0; };
