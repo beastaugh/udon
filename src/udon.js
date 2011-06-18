@@ -159,6 +159,18 @@ Udon.product = function(ns) {
     return t;
 };
 
+Udon.elem = function(e, xs) {
+    var i = xs.length;
+    while (i--) if (e === xs[i]) return true;
+    return false;
+};
+
+Udon.notElem = function(e, xs) {
+    var i = xs.length, notInList = true;
+    while (i--) if (e === xs[i]) notInList = false;
+    return notInList;
+};
+
 Udon.partition = function(f, xs) {
     var ts = [], fs = [], len = xs.length, i, e;
     for (i = 0; i < len; i++) {

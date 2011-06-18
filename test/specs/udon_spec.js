@@ -391,6 +391,30 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
     
+    describe('elem', function() {
+        it('`elem` should return false when an element is not present in an array', function() { with(this) {
+            assertEqual(false, Udon.elem(5, []));
+            assertEqual(false, Udon.elem(5, [1, 2, 3, 4]));
+        }});
+        
+        it('`elem` should return true when an element is present in an array', function() { with(this) {
+            assert(Udon.elem(5, [1, 2, 3, 4, 5]));
+            assert(Udon.elem(5, [5, 4, 3, 2, 1]));
+        }});
+    });
+    
+    describe('notElem', function() {
+        it('`notElem` should return true when an element is not present in an array', function() { with(this) {
+            assert(Udon.notElem(5, []));
+            assert(Udon.notElem(5, [1, 2, 3, 4]));
+        }});
+        
+        it('`notElem` should return false when an element is present in an array', function() { with(this) {
+            assertEqual(false, Udon.notElem(5, [1, 2, 3, 4, 5]));
+            assertEqual(false, Udon.notElem(5, [5, 4, 3, 2, 1]));
+        }});
+    });
+    
     describe('partition', function() {
         it('`partition` should partition the elements of an array into arrays of those satisfying and failing to satisfy some predicate', function() { with(this) {
             var isNegative = function(n) { return n < 0; };

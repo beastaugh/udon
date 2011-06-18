@@ -53,6 +53,8 @@ API summary
     - [`none`](#api-none)
     - [`sum`](#api-sum)
     - [`product`](#api-product)
+    - [`elem`](#api-elem)
+    - [`notElem`](#api-notElem)
     - [`partition`](#api-partition)
     - [`unfoldr`](#api-unfoldr)
     - [`zip`](#api-zip)
@@ -372,6 +374,26 @@ Udon.product([]);
 // -> 1
 Udon.sum([1, 2, 3, 4]);
 // -> 24
+~~~
+
+<h3 id="api-elem"><code>elem</code></h3>
+
+Returns `true` if the given element is in the array, `false` otherwise.
+
+~~~{.JavaScript}
+Udon.elem(2, [1, 2, 3]) === true;
+
+Udon.elem(4, [1, 2, 3]) === false;
+~~~
+
+<h3 id="api-notElem"><code>notElem</code></h3>
+
+Returns `false` if the given element is in the array, and `true` if it is not.
+
+~~~{.JavaScript}
+Udon.notElem('Z', ['a', 'b', 'c']) === true;
+
+Udon.notElem('Z', ['X', 'Y', 'Z']) === false;
 ~~~
 
 <h3 id="api-partition"><code>partition</code></h3>

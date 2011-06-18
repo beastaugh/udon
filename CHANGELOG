@@ -4,8 +4,8 @@ Udon changelog
 Edge
 ----
 
-* Added `id`, `concat`, `sum`, `product`, `reverse`, `intersperse` and
-  `intercalate` functions.
+* Added `id`, `concat`, `sum`, `product`, `elem`, `notElem`, `reverse`,
+  `intersperse` and `intercalate` functions.
 
 Version 1.1.0
 -------------
