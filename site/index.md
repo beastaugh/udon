@@ -44,6 +44,7 @@ API summary
     - [`minimumBy`](#api-minimumBy)
     - [`map`](#api-map)
     - [`reverse`](#api-reverse)
+    - [`intersperse`](#api-intersperse)
     - [`filter`](#api-filter)
     - [`any`](#api-any)
     - [`all`](#api-all)
@@ -270,6 +271,16 @@ as it does not mutate the input array.
 ~~~{.JavaScript}
 Udon.reverse(['a', 'b', 'c', 'd']);
 // -> ['d', 'c', 'b', 'a']
+~~~
+
+<h3 id="api-intersperse"><code>intersperse</code></h3>
+
+Insert a separating element between the existing elements, like the `join`
+method does but without converting the array to a string.
+
+~~~{.JavaScript}
+Udon.intersperse(10, [1, 2, 3, 4]);
+// -> [1, 10, 2, 10, 3, 10, 4]
 ~~~
 
 <h3 id="api-filter"><code>filter</code></h3>

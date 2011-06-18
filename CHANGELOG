@@ -4,7 +4,7 @@ Udon changelog
 Edge
 ----
 
-* Added `id` and `reverse` functions.
+* Added `id`, `reverse` and `intersperse` functions.
 
 Version 1.1.0
 -------------
