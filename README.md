@@ -17,6 +17,28 @@ elements of Haskell's `Data.List` library.
 [Functional]: http://osteele.com/sources/javascript/functional/
 
 
+Installing Udon
+---------------
+
+Udon is available from [npm], so if you want to use Udon with [Node] you can
+just run the following command to globally install the library.
+
+    npm install -g udon
+
+Then it's just a matter of requiring it in your Node project. The module
+exported by the library is just the top-level Udon object.
+
+    var Udon = require('udon');
+    
+    Udon.sum([1, 2, 3, 4]); // -> 10
+
+Otherwise, you can grab pre-built versions from the [Udon website][Udon] or
+build it yourself as described below.
+
+[npm]:  http://npmjs.org/
+[Node]: http://nodejs.org/
+
+
 Building the library
 --------------------
 
