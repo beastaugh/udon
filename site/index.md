@@ -17,6 +17,10 @@ Current version: **1.2.0**.
 * [Production version](./downloads/udon-1.2.0-min.js)
   4.5kb packed, 1.0kb gzipped
 
+This version adds the following new functions to the library: `id`, `concat`,
+`sum`, `product`, `elem`, `notElem`, `reverse`, `intersperse` and
+`intercalate`.
+
 
 Programming with Udon
 ---------------------
