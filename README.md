@@ -59,6 +59,18 @@ which will build the library in the `/pkg` directory.
 [Jake]:     https://github.com/jcoglan/jake
 
 
+Deploying with Helium
+---------------------
+
+Udon includes a `jake.yml` file for use with the Jake build tool, as explained
+above. This also means that it is easily deployed with [Helium], a Git-backed
+JavaScript package server. It should also fit into any other build or deploy
+system based on [JS.Packages].
+
+[Helium]:      https://github.com/othermedia/helium
+[JS.Packages]: http://jsclass.jcoglan.com/packages.html
+
+
 Running the test suite
 ----------------------
 
