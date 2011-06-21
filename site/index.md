@@ -11,11 +11,11 @@ in JavaScript.
 Downloads
 ---------
 
-Current version: **1.1.0**.
+Current version: **1.2.0**.
 
-* [Development version](./downloads/udon-1.1.0.js)
-* [Production version](./downloads/udon-1.1.0-min.js) 2.1kb packed, 0.7kb
-  gzipped
+* [Development version](./downloads/udon-1.2.0.js)
+* [Production version](./downloads/udon-1.2.0-min.js)
+  4.5kb packed, 1.0kb gzipped
 
 
 Programming with Udon
