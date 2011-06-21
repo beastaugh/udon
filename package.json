@@ -1,17 +1,17 @@
-{
-    "name":        "udon",
-    "version":     "1.1.0",
-    
-    "author":      "Benedict Eastaugh <benedict@eastaugh.net> (http://extralogical.net/)",
-    "homepage":    "http://extralogical.net/projects/udon",
-    
-    "description": "Practical functional programming in JavaScript.",
-    "keywords":    "functional programming compose curry fold map filter zip",
-    
-    "main":        "./src/udon",
-    
-    "repository": {
-        "type": "git",
-        "url":  "git://github.com/beastaugh/udon.git"
+{ "name":        "udon"
+, "description": "Practical functional programming in JavaScript."
+, "homepage":    "http://extralogical.net/projects/udon"
+, "author":      "Benedict Eastaugh <benedict@eastaugh.net> (http://extralogical.net/)"
+, "keywords":    "functional-programming haskell"
+
+, "version":     "1.2.0"
+, "engines":     {"node": ">=0.4.0"}
+, "main" :       "src/udon"
+
+, "bugs":        "http://github.com/beastaugh/udon/issues"
+
+, "repository":
+    { "type": "git"
+    , "url":  "git://github.com/beastaugh/udon.git"
     }
 }
