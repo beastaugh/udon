@@ -29,6 +29,26 @@ All the functions in this library are namespaced by the `Udon` object, so a
 reference in the documentation to e.g. `map` should be read as `Udon.map`. This
 means it should play nicely with other JavaScript libraries.
 
+Udon is known to work in all major browsers, as well as on [Node]. As well as
+being available from the download links above, you can install it with [npm].
+
+    npm install -g udon
+
+The Node library exports the Udon object as the module, so usage should follow
+this pattern.
+
+~~~{.JavaScript}
+var Udon = require('udon');
+
+Udon.zip([1, 2, 3], ['a', 'b', 'c']);
+// -> [[1, 'a'], [2, 'b'], [3, 'c']]
+~~~
+
+Udon is designed for pure functional programming, so none of its public
+functions (i.e. those listed below) modify the values passed to them.
+
+[Node]: http://nodejs.org
+[npm]:  http://npmjs.org
 
 API summary
 -----------
