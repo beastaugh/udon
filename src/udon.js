@@ -199,3 +199,106 @@ Udon.zipWith = function(f, xs, ys) {
     while (i--) zs[i] = f(xs[i], ys[i]);
     return zs;
 };
+
+Udon.foldr1 = function(f, xs) {
+    var len = xs.length, z = xs[len - 1], i;
+    for (i = len - 2; i >= 0; i--) z = f(z, xs[i]);
+    return z;
+};
+
+Udon.concatMap = function(f, xs) {
+    return Udon.concat(Udon.map(f, xs));
+}
+
+Udon.head = function(xs) {
+    return xs[0];
+}
+
+Udon.init = function(xs) {
+    return Udon._slice.call(xs, 0, xs.length - 1);
+}
+
+Udon.tail = function(xs) {
+    return Udon._slice.call(xs, 1, xs.length);
+}
+
+Udon.last = function(xs) {
+    return xs[xs.length - 1];
+}
+
+Udon.and = function(xs) {
+    var len = xs.length, i;
+    for (i = 0; i < len; i++) {
+        if (xs[i] === false) return false;
+    }
+    return true;
+};
+
+Udon.or = function(xs) {
+    var len = xs.length, i;
+    for (i = 0; i < len; i++) {
+        if (xs[i] === true) return true;
+    }
+    return false;
+};
+
+Udon.append = function(xs, ys) {
+    return xs.concat(ys);
+};
+
+Udon.empty = function(xs) {
+    var key;
+
+    if (xs.length && xs.length > 0) return false;
+
+    for (key in xs) {
+        if (xs.hasOwnProperty(key)) return false;
+    }
+    return true;
+};
+
+Udon.length = function(xs) {
+    return xs.length;
+};
+
+Udon.transpose = function(xs) {
+    var head_len = Udon.maximum(Udon.map(Udon.length, xs));
+    var total_len = xs.length;
+    var i, j, col = [];
+
+    if (Udon.empty(xs)) return xs;
+
+    for (i = 0; i < head_len; i++) {
+        col.push([]);
+        for (j = 0; j < total_len; j++) {
+            if (typeof xs[j][i] !== 'undefined') col[i].push(xs[j][i]);
+        }
+    }
+    return col;
+};
+
+Udon.subsequences = function(xs) {
+    var col = [];
+
+    var nonEmptySubs = function(xs) {
+        var x;
+        if (Udon.empty(xs)) return xs;
+        x = Udon.head(xs);
+
+        var f = function(ys, r) {
+            return Udon.cons(ys, Udon.cons(Udon.cons(x, ys), r));
+        };
+
+        return Udon.cons([x], Udon.foldr(f, [], nonEmptySubs(Udon.tail(xs))));
+    };
+
+    return Udon.cons([], nonEmptySubs(xs));
+};
+
+Udon.cons = function(x, xs) {
+    return [x].concat(xs);
+};
+
+
+    
+

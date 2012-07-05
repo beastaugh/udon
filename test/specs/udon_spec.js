@@ -174,6 +174,20 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(1, Udon.foldr(Math.min, Infinity, ys));
         }});
     });
+
+    describe('foldr', function() {
+        it('`foldr1` is equivalent to foldr when passed add and 0', function() { with(this) {
+            var xs = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(Udon.foldr(add, 0, xs), Udon.foldr1(add, xs));
+        }});
+        it('`foldr1` is equivalent to foldr when passed multiply and 1', function() { with(this) {
+            var xs = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(Udon.foldr(multiply, 1, xs), Udon.foldr1(multiply, xs));
+        }});
+    });
+                                                                       
     
     describe('concat', function() {
         it('`concat` flattens an array one level', function() { with(this) {
@@ -252,6 +266,17 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         
         it('`map` should apply a function to each element of an array', function() { with(this) {
             assertEqual([1, 2, 3, 4], Udon.map(Math.floor, [1.7, 2.4, 3.9, 4.1]));
+        }});
+    });
+
+    describe('concatMap', function() {
+        it('`concatMap` should return an array of the same length as that given', function() { with(this) {
+            var xs = [[1], [2], [3], [4]];
+            assertEqual(xs.length, Udon.concatMap(function(x){return x}, xs).length);
+        }});
+        it('`concatMap` function(x) { return cons(x, [])} should xs should return xs', function() { with(this) {
+            var xs = [1, 2, 3, 4];
+            assertEqual(xs, Udon.concatMap(function(x){return cons(x,[])}, xs));
         }});
     });
     
@@ -477,6 +502,78 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             
             assertEqual(Udon.zip(['a', 'b', 'c'], [5, 10, 20]),
                 Udon.zipWith(pair, ['a', 'b', 'c'], [5, 10, 20]));
+        }});
+    });
+
+    describe('head', function() {
+        it('`head` should return the first element from an array', function() { with (this) {
+            assertEqual(1, Udon.head([1, 2, 3, 4]));
+        }});
+    });
+
+    describe('init', function() {
+        it('`init` should return everything from an array but the last element', function() { with (this) {
+            assertEqual([1, 2, 3], Udon.init([1, 2, 3, 4]));
+        }});
+    });
+
+    describe('tail', function() {
+        it('`tail` should return everything from an array but the first element', function() { with (this) {
+            assertEqual([2, 3, 4], Udon.tail([1, 2, 3, 4]));
+        }});
+    });
+
+    describe('last', function() {
+        it('`last` should return the last element from an array', function() { with (this) {
+            assertEqual(4, Udon.last([1, 2, 3, 4]));
+        }});
+    });
+
+    describe('and', function() {
+        it('`and` should return the true if and only if every element of an array is true', function() { with (this) {
+            assertEqual(true, Udon.and([true, true, true]));
+            assertEqual(false, Udon.and([true, true, false]));
+        }});
+    });
+
+    describe('or', function() {
+        it('`or` should return the true if any element of an array is true', function() { with (this) {
+            assertEqual(true, Udon.or([true, true, true]));
+            assertEqual(true, Udon.or([false, false, true]));
+            assertEqual(false, Udon.or([false, false, false]));
+        }});
+    });
+
+    describe('append', function() {
+        it('`append` should combine two arrays', function() { with (this) {
+            assertEqual([1,2,3,4,5,6], Udon.append([1,2,3],[4,5,6]));
+        }});
+    });
+
+    describe('empty', function() {
+        it('`empty` should return true when passed an empty object', function() { with (this) {
+            assertEqual(true, Udon.empty([]));
+            assertEqual(true, Udon.empty({}));
+            assertEqual(false, Udon.empty([1]));
+        }});
+    });
+
+    describe('transpose', function() {
+        it('`transpose` should transpose the rows and columns of an array', function() { with (this) {
+            assertEqual([[1,4],[2,5],[3,6]], Udon.transpose([[1,2,3],[4,5,6]]));
+            assertEqual([[1,4,7],[5,8],[9]], Udon.transpose([[1],[4,5],[7,8,9]]));
+            assertEqual([[1,10],[2,20],[3,30],[4,40]], Udon.transpose([[1,2,3,4],[10,20,30,40]]));
+        }});
+    });
+
+    describe('subsequences', function() {
+        it('`subsequences` should return an array of all the subsequences of a given array', function() { with (this) {
+            var a = [1,2];
+            var b = [1,2,3];
+            assertEqual([[],[1],[2],[1,2]], Udon.subsequences(a));
+            assertEqual([[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]], Udon.subsequences(b));
+            assertEqual(a, [1,2]);
+            assertEqual(b, [1,2,3]);
         }});
     });
 }});
