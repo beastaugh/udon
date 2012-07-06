@@ -515,17 +515,24 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         it('`init` should return everything from an array but the last element', function() { with (this) {
             assertEqual([1, 2, 3], Udon.init([1, 2, 3, 4]));
         }});
+        it('`init` should return return an empty array given a one-element array', function() { with (this) {
+            assertEqual([], Udon.init([4]));
+        }});
     });
 
     describe('tail', function() {
         it('`tail` should return everything from an array but the first element', function() { with (this) {
             assertEqual([2, 3, 4], Udon.tail([1, 2, 3, 4]));
         }});
+        it('`tail` should return return an empty array given a one-element array', function() { with (this) {
+            assertEqual([], Udon.tail([4]));
+        }});
     });
 
     describe('last', function() {
         it('`last` should return the last element from an array', function() { with (this) {
             assertEqual(4, Udon.last([1, 2, 3, 4]));
+            assertEqual(4, Udon.last([4]));
         }});
     });
 
