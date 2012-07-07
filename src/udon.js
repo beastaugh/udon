@@ -200,50 +200,27 @@ Udon.zipWith = function(f, xs, ys) {
     return zs;
 };
 
-Udon.foldr1 = function(f, xs) {
-    var len = xs.length, z = xs[len - 1], i;
-    for (i = len - 2; i >= 0; i--) z = f(z, xs[i]);
-    return z;
-};
-
-Udon.concatMap = function(f, xs) {
-    return Udon.concat(Udon.map(f, xs));
-}
-
-Udon.head = function(xs) {
-    return xs[0];
-}
-
-Udon.init = function(xs) {
-    return Udon._slice.call(xs, 0, xs.length - 1);
-}
-
-Udon.tail = function(xs) {
-    return Udon._slice.call(xs, 1, xs.length);
-}
-
-Udon.last = function(xs) {
-    return xs[xs.length - 1];
-}
 
 Udon.and = function(xs) {
-    var len = xs.length, i;
+    var len, i;
+    len = xs.length;
+
     for (i = 0; i < len; i++) {
         if (xs[i] === false) return false;
     }
     return true;
 };
 
-Udon.or = function(xs) {
-    var len = xs.length, i;
-    for (i = 0; i < len; i++) {
-        if (xs[i] === true) return true;
-    }
-    return false;
-};
-
 Udon.append = function(xs, ys) {
     return xs.concat(ys);
+};
+
+Udon.concatMap = function(f, xs) {
+    return Udon.concat(Udon.map(f, xs));
+}
+
+Udon.cons = function(x, xs) {
+    return [x].concat(xs);
 };
 
 Udon.empty = function(xs) {
@@ -257,24 +234,71 @@ Udon.empty = function(xs) {
     return true;
 };
 
+Udon.equal = function(xs, ys) {
+    var i, xlen = xs.length, ylen = ys.length;
+    if (typeof xs !== typeof ys) {
+        return false;
+    } else if (typeof xs !== 'object') {
+        return xs === ys;
+    } 
+    
+    if (xlen !== ylen) return false;
+
+    for (var i = 0; i < xlen; i++) {
+        if (Udon.equal(xs[i], ys[i]) === false) return false;
+    }
+
+    return true;
+}
+
+Udon.foldr1 = function(f, xs) {
+    var len = xs.length, z = xs[len - 1], i;
+    for (i = len - 2; i >= 0; i--) z = f(z, xs[i]);
+    return z;
+};
+
+Udon.head = function(xs) {
+    return xs[0];
+}
+
+Udon.init = function(xs) {
+    return Udon._slice.call(xs, 0, xs.length - 1);
+}
+
+Udon.last = function(xs) {
+    return xs[xs.length - 1];
+}
+
 Udon.length = function(xs) {
     return xs.length;
 };
 
-Udon.transpose = function(xs) {
-    var head_len = Udon.maximum(Udon.map(Udon.length, xs));
-    var total_len = xs.length;
-    var i, j, col = [];
-
-    if (Udon.empty(xs)) return xs;
-
-    for (i = 0; i < head_len; i++) {
-        col.push([]);
-        for (j = 0; j < total_len; j++) {
-            if (typeof xs[j][i] !== 'undefined') col[i].push(xs[j][i]);
-        }
+Udon.or = function(xs) {
+    var len = xs.length, i;
+    for (i = 0; i < len; i++) {
+        if (xs[i] === true) return true;
     }
-    return col;
+    return false;
+};
+
+
+Udon.permutations = function (xs) {
+    var permute = function(perms, used, xs) {
+        var i, next, len = xs.length;
+        for (i = 0; i < len; i++) {
+            next = xs.splice(i, 1)[0];
+            used.push(next);
+            if (xs.length === 0) {
+                perms.push(used.slice());
+            }
+            permute(perms, used, xs);
+            xs.splice(i, 0, next);
+            used.pop();
+        }
+        return perms;
+    };
+
+    return permute([], [], xs);
 };
 
 Udon.subsequences = function(xs) {
@@ -295,10 +319,23 @@ Udon.subsequences = function(xs) {
     return Udon.cons([], nonEmptySubs(xs));
 };
 
-Udon.cons = function(x, xs) {
-    return [x].concat(xs);
+Udon.tail = function(xs) {
+    return Udon._slice.call(xs, 1, xs.length);
+}
+
+Udon.transpose = function(xs) {
+    var head_len, total_len, i, j, col = [];
+    head_len = Udon.maximum(Udon.map(Udon.length, xs));
+    total_len = xs.length;
+
+    if (Udon.empty(xs)) return xs;
+
+    for (i = 0; i < head_len; i++) {
+        col.push([]);
+        for (j = 0; j < total_len; j++) {
+            if (typeof xs[j][i] !== 'undefined') col[i].push(xs[j][i]);
+        }
+    }
+    return col;
 };
-
-
     
-

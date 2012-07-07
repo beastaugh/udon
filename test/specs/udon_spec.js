@@ -175,7 +175,7 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         }});
     });
 
-    describe('foldr', function() {
+    describe('foldr1', function() {
         it('`foldr1` is equivalent to foldr when passed add and 0', function() { with(this) {
             var xs = [1, 2, 4, 9, 3, 7];
             
@@ -575,12 +575,96 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
 
     describe('subsequences', function() {
         it('`subsequences` should return an array of all the subsequences of a given array', function() { with (this) {
-            var a = [1,2];
-            var b = [1,2,3];
+            var a,b;
+            a = [1,2];
+            b = [1,2,3];
             assertEqual([[],[1],[2],[1,2]], Udon.subsequences(a));
             assertEqual([[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]], Udon.subsequences(b));
             assertEqual(a, [1,2]);
             assertEqual(b, [1,2,3]);
+        }});
+    });
+    
+    describe('permutations', function() {
+        it('`permutations` should return an array of all the permutations of a given array', function() { with (this) {
+            var facts, origs, perms, i;
+            origs = [[], [1],[1,2],[1,2,3],[1,2,3,4],
+                     [1,2,3,4,5],[1,2,3,4,5,6],[1,2,3,4,5,6,7],[1,2,3,4,5,6,7,8]]
+            perms = Udon.map(Udon.permutations, origs);
+            facts = [0, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+            
+            
+            assertEqual(origs.length, perms.length);
+            
+            /* the permutations should have n! elements each, with the special
+               condition that permutations([]) returns the empty list, which in
+               javascript is length 0 */
+            for (i = 0; i < origs.length; i++) {
+                assertEqual(facts[i], perms[i].length);
+            }
+
+            // some calculated permutations from GHC
+            assertEqual(true, Udon.empty(perms[0]));
+            assertEqual([[1]], perms[1]);
+            assertEqual([[1,2],[2,1]].sort(), perms[2].sort());
+            assertEqual([[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]].sort(),
+                        perms[3].sort());
+            assertEqual([[1,2,3,4],[2,1,3,4],[3,2,1,4],[2,3,1,4],[3,1,2,4],
+                         [1,3,2,4],[4,3,2,1],[3,4,2,1],[3,2,4,1],[4,2,3,1],
+                         [2,4,3,1],[2,3,4,1],[4,1,2,3],[1,4,2,3],[1,2,4,3],
+                         [4,2,1,3],[2,4,1,3],[2,1,4,3],[4,1,3,2],[1,4,3,2],
+                         [1,3,4,2],[4,3,1,2],[3,4,1,2],[3,1,4,2]].sort(),
+                        perms[4].sort());
+            assertEqual([[1,2,3,4,5],[2,1,3,4,5],[3,2,1,4,5],[2,3,1,4,5],[3,1,2,4,5],
+                         [1,3,2,4,5],[4,3,2,1,5],[3,4,2,1,5],[3,2,4,1,5],[4,2,3,1,5],
+                         [2,4,3,1,5],[2,3,4,1,5],[4,1,2,3,5],[1,4,2,3,5],[1,2,4,3,5],
+                         [4,2,1,3,5],[2,4,1,3,5],[2,1,4,3,5],[4,1,3,2,5],[1,4,3,2,5],
+                         [1,3,4,2,5],[4,3,1,2,5],[3,4,1,2,5],[3,1,4,2,5],[5,4,3,2,1],
+                         [4,5,3,2,1],[4,3,5,2,1],[4,3,2,5,1],[5,3,4,2,1],[3,5,4,2,1],
+                         [3,4,5,2,1],[3,4,2,5,1],[5,2,3,4,1],[2,5,3,4,1],[2,3,5,4,1],
+                         [2,3,4,5,1],[5,3,2,4,1],[3,5,2,4,1],[3,2,5,4,1],[3,2,4,5,1],
+                         [5,2,4,3,1],[2,5,4,3,1],[2,4,5,3,1],[2,4,3,5,1],[5,4,2,3,1],
+                         [4,5,2,3,1],[4,2,5,3,1],[4,2,3,5,1],[5,1,2,3,4],[1,5,2,3,4],
+                         [1,2,5,3,4],[1,2,3,5,4],[5,2,1,3,4],[2,5,1,3,4],[2,1,5,3,4],
+                         [2,1,3,5,4],[5,2,3,1,4],[2,5,3,1,4],[2,3,5,1,4],[2,3,1,5,4],
+                         [5,1,3,2,4],[1,5,3,2,4],[1,3,5,2,4],[1,3,2,5,4],[5,3,1,2,4],
+                         [3,5,1,2,4],[3,1,5,2,4],[3,1,2,5,4],[5,3,2,1,4],[3,5,2,1,4],
+                         [3,2,5,1,4],[3,2,1,5,4],[5,1,4,3,2],[1,5,4,3,2],[1,4,5,3,2],
+                         [1,4,3,5,2],[5,4,1,3,2],[4,5,1,3,2],[4,1,5,3,2],[4,1,3,5,2],
+                         [5,4,3,1,2],[4,5,3,1,2],[4,3,5,1,2],[4,3,1,5,2],[5,1,3,4,2],
+                         [1,5,3,4,2],[1,3,5,4,2],[1,3,4,5,2],[5,3,1,4,2],[3,5,1,4,2],
+                         [3,1,5,4,2],[3,1,4,5,2],[5,3,4,1,2],[3,5,4,1,2],[3,4,5,1,2],
+                         [3,4,1,5,2],[5,1,4,2,3],[1,5,4,2,3],[1,4,5,2,3],[1,4,2,5,3],
+                         [5,4,1,2,3],[4,5,1,2,3],[4,1,5,2,3],[4,1,2,5,3],[5,4,2,1,3],
+                         [4,5,2,1,3],[4,2,5,1,3],[4,2,1,5,3],[5,1,2,4,3],[1,5,2,4,3],
+                         [1,2,5,4,3],[1,2,4,5,3],[5,2,1,4,3],[2,5,1,4,3],[2,1,5,4,3],
+                         [2,1,4,5,3],[5,2,4,1,3],[2,5,4,1,3],[2,4,5,1,3],[2,4,1,5,3]].sort(),
+                        perms[5].sort());
+
+            // make sure lists with duplicates are handled correctly
+            assertEqual(Udon.permutations([1,2,2]), [[1,2,2],[1,2,2],[2,1,2],[2,2,1],
+                                                     [2,1,2],[2,2,1]]);
+            
+        }});
+    });
+
+    describe('cons', function() {
+        it('`cons` should add an element to the front of the list', function() { with (this) {
+            assertEqual([1], Udon.cons(1,[]));
+            assertEqual([[1],2,3], Udon.cons([1], [2,3]));
+        }});
+    });
+
+    describe('equal', function() {
+        it('`equal` should determin value equality', function() { with (this) {
+            assertEqual(true, Udon.equal(1,1));
+            assertEqual(false, Udon.equal(1,2));
+            assertEqual(true, Udon.equal("hello", "hello"));
+            assertEqual(false, Udon.equal("hello", "Hello"));
+            assertEqual(true, Udon.equal([1,2,3], [1,2,3]));
+            assertEqual(true, Udon.equal([[1],[2],[3]], [[1],[2],[3]]));
+            assertEqual(false, Udon.equal([[1],[2],[3]], [[1],[2,3]]));
+            assertEqual(false, Udon.equal([1], 1));
         }});
     });
 }});
