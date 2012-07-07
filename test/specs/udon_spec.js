@@ -769,4 +769,17 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(a, [1,2,3,4,5,6]);
         }});
     });
+
+    describe('span', function() {
+        it('`span` should be equivalent to [takeWhile..., dropWhile...]', function() { with (this) {
+            var a, b;
+            var lt = function(n) { return function(x) { return x < n}};
+            a = [1,2,3,4,1,2,3,4];
+            b = [1,2,3]
+            assertEqual([[1,2],[3,4,1,2,3,4]], Udon.span(lt(3), a));
+            assertEqual([[1,2],[3]], Udon.span(lt(3), b));
+            assertEqual([[1,2,3],[]], Udon.span(lt(9), b));
+            assertEqual([[],[1,2,3]], Udon.span(lt(0), b));
+        }});
+    });
 }});

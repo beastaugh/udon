@@ -241,6 +241,7 @@ Udon.dropWhile = function(pred, xs) {
             return Udon.drop(i, xs);
         }
     }
+    return [];
 };
 
 Udon.empty = function(xs) {
@@ -357,6 +358,10 @@ Udon.scanr1 = function(f, x_xs) {
     return Udon.scanr(f, lastx, Udon._slice.call(x_xs, 0, len - 1));
 };    
 
+Udon.span = function(pred, xs) {
+    return [Udon.takeWhile(pred, xs), Udon.dropWhile(pred, xs)];
+};
+
 Udon.splitAt = function(n, xs) {
     return [Udon.take(n, xs), Udon.drop(n, xs)];
 };
@@ -393,13 +398,14 @@ Udon.take = function(n, xs) {
 Udon.takeWhile = function(pred, xs) {
     var i, len = xs.length;
 
-    if (pred(xs[0]) === false) return [];
+    if (Udon.empty(xs) || pred(xs[0]) === false) return [];
     
     for (i = 1; i < len; i++) {
         if (pred(xs[i]) === false) {
             return Udon.take(i, xs);
         }
     }
+    return xs;
 };
 
 
