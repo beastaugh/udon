@@ -223,6 +223,26 @@ Udon.cons = function(x, xs) {
     return [x].concat(xs);
 };
 
+Udon.drop = function(n, xs) {
+    var len = xs.length;
+
+    if (n > len) return [];
+
+    return Udon._slice.call(xs, n, len);
+};
+
+Udon.dropWhile = function(pred, xs) {
+    var i, len = xs.length;
+
+    if (pred(xs[0]) === false) return xs;
+    
+    for (i = 1; i < len; i++) {
+        if (pred(xs[i]) === false) {
+            return Udon.drop(i, xs);
+        }
+    }
+};
+
 Udon.empty = function(xs) {
     var key;
 
@@ -337,6 +357,10 @@ Udon.scanr1 = function(f, x_xs) {
     return Udon.scanr(f, lastx, Udon._slice.call(x_xs, 0, len - 1));
 };    
 
+Udon.splitAt = function(n, xs) {
+    return [Udon.take(n, xs), Udon.drop(n, xs)];
+};
+
 Udon.subsequences = function(xs) {
     var col = [];
 
@@ -358,6 +382,26 @@ Udon.subsequences = function(xs) {
 Udon.tail = function(xs) {
     return Udon._slice.call(xs, 1, xs.length);
 }
+
+Udon.take = function(n, xs) {
+    var len = xs.len;
+    if (n > len) return xs;
+
+    return Udon._slice.call(xs, 0, n);
+};
+
+Udon.takeWhile = function(pred, xs) {
+    var i, len = xs.length;
+
+    if (pred(xs[0]) === false) return [];
+    
+    for (i = 1; i < len; i++) {
+        if (pred(xs[i]) === false) {
+            return Udon.take(i, xs);
+        }
+    }
+};
+
 
 Udon.transpose = function(xs) {
     var head_len, total_len, i, j, col = [];

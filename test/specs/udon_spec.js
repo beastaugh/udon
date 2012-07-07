@@ -714,4 +714,59 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(a, [1,2,3]);
         }});
     });
+
+    describe('dropWhile', function() {
+        it('`dropWhile` should remove the first N elements from a list that satisfy a given pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([4,5,6], Udon.dropWhile(function(x){return x<=3}, a));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+        it('`dropWhile` should return the entire list when the first element of the supplied list does not satisfy the given predicate', function() { with (this) {
+            var a = [1,3,5];
+            assertEqual([1,3,5], Udon.dropWhile(function(x){return x % 2 === true}, a));
+        }});
+    });
+
+    describe('take', function() {
+        it('`take` should return the first N elements from a list', function() { with (this) {
+            var a = [1,2,3];
+            var b = [1];
+            assertEqual([1], Udon.take(1, a));
+            assertEqual([1,2], Udon.take(2, a));
+            assertEqual([1], Udon.take(1,b));
+            assertEqual(a, [1,2,3]);
+        }});
+        it('`take` should return the entire list when given an N greater than the length of the supplied list', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([1,2,3], Udon.take(4, a));
+            assertEqual(a, [1,2,3]);
+        }});
+        it('`take` should return the empty list when asked for 0 elements', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([], Udon.take(0, a));
+            assertEqual(a, [1,2,3]);
+        }});
+    });
+
+    describe('takeWhile', function() {
+        it('`takeWhile` should return the first N elements from a list that satisfy a supplied pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            var b = [2,4,3,6];
+            assertEqual([1,2,3], Udon.takeWhile(function(x){return x <= 3}, a));
+            assertEqual([2,4], Udon.takeWhile(function(x){return (x % 2) === 0}, b));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+        it('`takeWhile` should return the empty list if the first element of the given list does not satisfy supplied pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([], Udon.takeWhile(function(x){return x >= 3}, a));
+        }});
+    });
+    
+    describe('splitAt', function() {
+        it('`splitAt` should return a list containing a list of the first N elements from a list, and a list containing the remaining elements', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([[1,2,3],[4,5,6]], Udon.splitAt(3, a));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+    });
 }});
