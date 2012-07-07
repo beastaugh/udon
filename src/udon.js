@@ -215,9 +215,13 @@ Udon.append = function(xs, ys) {
     return xs.concat(ys);
 };
 
+Udon.break = function(pred, xs) {
+    return Udon.span(function(x){ return !pred(x)}, xs);
+};
+
 Udon.concatMap = function(f, xs) {
     return Udon.concat(Udon.map(f, xs));
-}
+};
 
 Udon.cons = function(x, xs) {
     return [x].concat(xs);
@@ -242,6 +246,14 @@ Udon.dropWhile = function(pred, xs) {
         }
     }
     return [];
+};
+
+Udon.elemIndex = function(a, xs) {
+    var i, len = xs.length;
+    for (i = 0; i < len; i++) {
+        if (Udon.equal(a, xs[i])) return i;
+    }
+    return null;
 };
 
 Udon.empty = function(xs) {
@@ -270,7 +282,25 @@ Udon.equal = function(xs, ys) {
     }
 
     return true;
-}
+};
+
+Udon.find = function(pred, xs) {
+    var len = xs.length, i;
+    
+    for (i = 0; i < len; i++) {
+        if (pred(xs[i])) return xs[i];
+    }
+
+    return null;
+};
+
+Udon.findIndex = function(pred, xs) {
+    var len = xs.length, i;
+    for (i = 0; i < len; i++) {
+        if (pred(xs[i])) return i;
+    }
+    return null;
+};
 
 Udon.foldr1 = function(f, xs) {
     var len = xs.length, z = xs[len - 1], i;
@@ -280,15 +310,27 @@ Udon.foldr1 = function(f, xs) {
 
 Udon.head = function(xs) {
     return xs[0];
-}
+};
 
 Udon.init = function(xs) {
     return Udon._slice.call(xs, 0, xs.length - 1);
-}
+};
 
+Udon.inits = function(xs) {
+    var i, xcopy, len = xs.length, result;
+    result = []
+    xcopy = Udon._slice.call(xs, 0);
+
+    for (i = 0; i < len; i++) {
+        result = Udon.cons(xcopy, result);
+        xcopy = Udon.init(xcopy);
+    }
+    return Udon.cons([], result);
+};
+        
 Udon.last = function(xs) {
     return xs[xs.length - 1];
-}
+};
 
 Udon.length = function(xs) {
     return xs.length;
@@ -386,7 +428,20 @@ Udon.subsequences = function(xs) {
 
 Udon.tail = function(xs) {
     return Udon._slice.call(xs, 1, xs.length);
-}
+};
+
+Udon.tails = function(xs) {
+    var i, xcopy, len = xs.length, result;
+    result = []
+    xcopy = Udon._slice.call(xs, 0);
+
+    for (i = 0; i < len; i++) {
+        result.push(xcopy);
+        xcopy = Udon.tail(xcopy);
+    }
+    result.push([]);
+    return result;
+};
 
 Udon.take = function(n, xs) {
     var len = xs.len;

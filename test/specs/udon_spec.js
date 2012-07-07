@@ -18,6 +18,8 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             while (m--) n *= ns[m];
             return n;
         };
+        this.gt = function(n) { return function(x) { return x > n};};
+        this.lt = function(n) { return function(x) { return x < n};};
     });
     
     describe('curry', function() {
@@ -780,6 +782,76 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual([[1,2],[3]], Udon.span(lt(3), b));
             assertEqual([[1,2,3],[]], Udon.span(lt(9), b));
             assertEqual([[],[1,2,3]], Udon.span(lt(0), b));
+        }});
+    });
+
+    describe('break', function() {
+        it('`break` should be equivalent to span (not . p)', function() { with (this) {
+            var a, b;
+            var lt = function(n) { return function(x) { return x < n}};
+            var gt = function(n) { return function(x) { return x > n}};
+            a = [1,2,3,4,1,2,3,4];
+            b = [1,2,3]
+            assertEqual([[],[1,2,3,4,1,2,3,4]], Udon.break(lt(3), a));
+            assertEqual([[1,2,3],[4,1,2,3,4]], Udon.break(gt(3), a));
+        }});
+    });
+
+    describe('inits', function() {
+        it('`inits` should return a list of lists containing all inits from a supplied list', function() { with (this) {
+            var a = [1,2,3], b = [1];
+            assertEqual([[],[1],[1,2],[1,2,3]], Udon.inits(a));
+            assertEqual([[],[1]], Udon.inits(b));
+            assertEqual([1,2,3], a);
+            assertEqual([1], b);
+        }});
+    });
+
+    describe('tails', function() {
+        it('`tails` should return a list of lists containing all tails from a supplied list', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([[1,2,3],[2,3],[3],[]], Udon.tails(a));
+            assertEqual([1,2,3], a);
+        }});
+    });
+
+    describe('find', function() {
+        it('`find` should return the first element of a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(6, Udon.find(function(x){return x % 2 === 0}, a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`find` should return null if no element in a list satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.find(gt(11), a));
+        }});
+    });
+
+    describe('elemIndex', function() {
+        it('`elemIndex` should return the index of the first element in a list that is equal to a supplied element', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            var b = [[1,2,3],[4,5,6]];
+            assertEqual(3, Udon.elemIndex(6, a));
+            assertEqual(1, Udon.elemIndex([4,5,6], b));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`elemIndex` should return null if there is not element in a list equal to a supplied element', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.elemIndex(11, a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+    });
+
+    describe('findIndex', function() {
+        it('`findIndex` should return the index of the first element in a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(4, Udon.findIndex(gt(6), a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`findIndex` should return null if there is not element in a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.findIndex(gt(11), a));
+            assertEqual([1,3,5,6,9,10], a);
         }});
     });
 }});
