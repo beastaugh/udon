@@ -599,6 +599,7 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             /* the permutations should have n! elements each, with the special
                condition that permutations([]) returns the empty list, which in
                javascript is length 0 */
+
             for (i = 0; i < origs.length; i++) {
                 assertEqual(facts[i], perms[i].length);
             }
@@ -665,6 +666,52 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(true, Udon.equal([[1],[2],[3]], [[1],[2],[3]]));
             assertEqual(false, Udon.equal([[1],[2],[3]], [[1],[2,3]]));
             assertEqual(false, Udon.equal([1], 1));
+        }});
+    });
+
+    describe('scanl', function() {
+        it('`scanl` should produce a list of continuous folds', function() { with (this) {
+            assertEqual([0,1,3,6], Udon.scanl(add, 0, [1,2,3]));
+        }});
+        it ('`the last element given by scanl should be the result of foldl', function() { with (this) {
+            assertEqual(Udon.last(Udon.scanl(add, 10, [6,99,437])),
+                        Udon.foldl(add, 10, [6,99,437]));
+        }});
+    });
+    
+    describe('scanl1', function() {
+        it('`scanl1` should produce a list of continuous folds without a starting value', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([1,3,6], Udon.scanl1(add, a));
+            assertEqual(a, [1,2,3]);
+        }});
+
+        it('`scanl1` can produce factorials from 1 with multiplication', function() { with (this) {
+            var a, facts;
+            a = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+            facts = [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 
+                     39916800, 479001600, 6227020800, 87178291200, 
+                     1307674368000, 20922789888000, 355687428096000, 
+                     6402373705728000, 121645100408832000, 2432902008176640000]
+            assertEqual(facts, Udon.scanl1(multiply, a));
+        }});
+    });
+
+    describe('scanr', function() {
+        it('`scanr` should produce a list of continuous folds from the right', function() { with (this) {
+            assertEqual([6,5,3,0], Udon.scanr(add, 0, [1,2,3]));
+        }});
+        it ('`the first element given by scanr should be the result of foldr', function() { with (this) {
+            assertEqual(Udon.head(Udon.scanr(add, 10, [6,99,437])),
+                        Udon.foldr(add, 10, [6,99,437]));
+        }});
+    });
+
+    describe('scanr1', function() {
+        it('`scanr1` should produce a list of continuous folds from the right without a starting value', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([6,5,3], Udon.scanr1(add, a));
+            assertEqual(a, [1,2,3]);
         }});
     });
 }});

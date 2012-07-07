@@ -281,7 +281,6 @@ Udon.or = function(xs) {
     return false;
 };
 
-
 Udon.permutations = function (xs) {
     var permute = function(perms, used, xs) {
         var i, next, len = xs.length;
@@ -300,6 +299,43 @@ Udon.permutations = function (xs) {
 
     return permute([], [], xs);
 };
+
+Udon.scanl = function(f, q, x_xs) {
+    var x, xs;
+    if (Udon.empty(x_xs)) return [q];
+    x = Udon.head(x_xs);
+    xs = Udon.tail(x_xs);
+    return Udon.cons(q, Udon.scanl(f, f(q, x), xs));
+};
+
+Udon.scanl1 = function(f, x_xs) {
+    var x, xs;
+    if (Udon.empty(x_xs)) return [];
+
+    x = Udon.head(x_xs);
+    xs = Udon.tail(x_xs);
+    return Udon.scanl(f, x, xs);
+};
+
+Udon.scanr = function(f, q0, x_xs) {
+    var q_qs, q, x, xs;
+    if (Udon.empty(x_xs)) return [q0];
+    
+    x = Udon.head(x_xs);
+    xs = Udon.tail(x_xs);
+
+    q_qs = Udon.scanr(f, q0, xs);
+    q = Udon.head(q_qs);
+    return Udon.cons(f(x, q), q_qs);
+};
+
+Udon.scanr1 = function(f, x_xs) {
+    var lastx, len = x_xs.length;
+    if (Udon.empty(x_xs)) return [];
+    lastx = Udon.last(x_xs);
+
+    return Udon.scanr(f, lastx, Udon._slice.call(x_xs, 0, len - 1));
+};    
 
 Udon.subsequences = function(xs) {
     var col = [];
