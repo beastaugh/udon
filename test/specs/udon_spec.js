@@ -18,6 +18,8 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             while (m--) n *= ns[m];
             return n;
         };
+        this.gt = function(n) { return function(x) { return x > n};};
+        this.lt = function(n) { return function(x) { return x < n};};
     });
     
     describe('curry', function() {
@@ -174,6 +176,20 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(1, Udon.foldr(Math.min, Infinity, ys));
         }});
     });
+
+    describe('foldr1', function() {
+        it('`foldr1` is equivalent to foldr when passed add and 0', function() { with(this) {
+            var xs = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(Udon.foldr(add, 0, xs), Udon.foldr1(add, xs));
+        }});
+        it('`foldr1` is equivalent to foldr when passed multiply and 1', function() { with(this) {
+            var xs = [1, 2, 4, 9, 3, 7];
+            
+            assertEqual(Udon.foldr(multiply, 1, xs), Udon.foldr1(multiply, xs));
+        }});
+    });
+                                                                       
     
     describe('concat', function() {
         it('`concat` flattens an array one level', function() { with(this) {
@@ -252,6 +268,17 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
         
         it('`map` should apply a function to each element of an array', function() { with(this) {
             assertEqual([1, 2, 3, 4], Udon.map(Math.floor, [1.7, 2.4, 3.9, 4.1]));
+        }});
+    });
+
+    describe('concatMap', function() {
+        it('`concatMap` should return an array of the same length as that given', function() { with(this) {
+            var xs = [[1], [2], [3], [4]];
+            assertEqual(xs.length, Udon.concatMap(function(x){return x}, xs).length);
+        }});
+        it('`concatMap` function(x) { return cons(x, [])} should xs should return xs', function() { with(this) {
+            var xs = [1, 2, 3, 4];
+            assertEqual(xs, Udon.concatMap(function(x){return cons(x,[])}, xs));
         }});
     });
     
@@ -477,6 +504,354 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             
             assertEqual(Udon.zip(['a', 'b', 'c'], [5, 10, 20]),
                 Udon.zipWith(pair, ['a', 'b', 'c'], [5, 10, 20]));
+        }});
+    });
+
+    describe('head', function() {
+        it('`head` should return the first element from an array', function() { with (this) {
+            assertEqual(1, Udon.head([1, 2, 3, 4]));
+        }});
+    });
+
+    describe('init', function() {
+        it('`init` should return everything from an array but the last element', function() { with (this) {
+            assertEqual([1, 2, 3], Udon.init([1, 2, 3, 4]));
+        }});
+        it('`init` should return return an empty array given a one-element array', function() { with (this) {
+            assertEqual([], Udon.init([4]));
+        }});
+    });
+
+    describe('tail', function() {
+        it('`tail` should return everything from an array but the first element', function() { with (this) {
+            assertEqual([2, 3, 4], Udon.tail([1, 2, 3, 4]));
+        }});
+        it('`tail` should return return an empty array given a one-element array', function() { with (this) {
+            assertEqual([], Udon.tail([4]));
+        }});
+    });
+
+    describe('last', function() {
+        it('`last` should return the last element from an array', function() { with (this) {
+            assertEqual(4, Udon.last([1, 2, 3, 4]));
+            assertEqual(4, Udon.last([4]));
+        }});
+    });
+
+    describe('and', function() {
+        it('`and` should return the true if and only if every element of an array is true', function() { with (this) {
+            assertEqual(true, Udon.and([true, true, true]));
+            assertEqual(false, Udon.and([true, true, false]));
+        }});
+    });
+
+    describe('or', function() {
+        it('`or` should return the true if any element of an array is true', function() { with (this) {
+            assertEqual(true, Udon.or([true, true, true]));
+            assertEqual(true, Udon.or([false, false, true]));
+            assertEqual(false, Udon.or([false, false, false]));
+        }});
+    });
+
+    describe('append', function() {
+        it('`append` should combine two arrays', function() { with (this) {
+            assertEqual([1,2,3,4,5,6], Udon.append([1,2,3],[4,5,6]));
+        }});
+    });
+
+    describe('empty', function() {
+        it('`empty` should return true when passed an empty object', function() { with (this) {
+            assertEqual(true, Udon.empty([]));
+            assertEqual(true, Udon.empty({}));
+            assertEqual(false, Udon.empty([1]));
+        }});
+    });
+
+    describe('transpose', function() {
+        it('`transpose` should transpose the rows and columns of an array', function() { with (this) {
+            assertEqual([[1,4],[2,5],[3,6]], Udon.transpose([[1,2,3],[4,5,6]]));
+            assertEqual([[1,4,7],[5,8],[9]], Udon.transpose([[1],[4,5],[7,8,9]]));
+            assertEqual([[1,10],[2,20],[3,30],[4,40]], Udon.transpose([[1,2,3,4],[10,20,30,40]]));
+        }});
+    });
+
+    describe('subsequences', function() {
+        it('`subsequences` should return an array of all the subsequences of a given array', function() { with (this) {
+            var a,b;
+            a = [1,2];
+            b = [1,2,3];
+            assertEqual([[],[1],[2],[1,2]], Udon.subsequences(a));
+            assertEqual([[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]], Udon.subsequences(b));
+            assertEqual(a, [1,2]);
+            assertEqual(b, [1,2,3]);
+        }});
+    });
+    
+    describe('permutations', function() {
+        it('`permutations` should return an array of all the permutations of a given array', function() { with (this) {
+            var facts, origs, perms, i;
+            origs = [[], [1],[1,2],[1,2,3],[1,2,3,4],
+                     [1,2,3,4,5],[1,2,3,4,5,6],[1,2,3,4,5,6,7],[1,2,3,4,5,6,7,8]]
+            perms = Udon.map(Udon.permutations, origs);
+            facts = [0, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+            
+            
+            assertEqual(origs.length, perms.length);
+            
+            /* the permutations should have n! elements each, with the special
+               condition that permutations([]) returns the empty list, which in
+               javascript is length 0 */
+
+            for (i = 0; i < origs.length; i++) {
+                assertEqual(facts[i], perms[i].length);
+            }
+
+            // some calculated permutations from GHC
+            assertEqual(true, Udon.empty(perms[0]));
+            assertEqual([[1]], perms[1]);
+            assertEqual([[1,2],[2,1]].sort(), perms[2].sort());
+            assertEqual([[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]].sort(),
+                        perms[3].sort());
+            assertEqual([[1,2,3,4],[2,1,3,4],[3,2,1,4],[2,3,1,4],[3,1,2,4],
+                         [1,3,2,4],[4,3,2,1],[3,4,2,1],[3,2,4,1],[4,2,3,1],
+                         [2,4,3,1],[2,3,4,1],[4,1,2,3],[1,4,2,3],[1,2,4,3],
+                         [4,2,1,3],[2,4,1,3],[2,1,4,3],[4,1,3,2],[1,4,3,2],
+                         [1,3,4,2],[4,3,1,2],[3,4,1,2],[3,1,4,2]].sort(),
+                        perms[4].sort());
+            assertEqual([[1,2,3,4,5],[2,1,3,4,5],[3,2,1,4,5],[2,3,1,4,5],[3,1,2,4,5],
+                         [1,3,2,4,5],[4,3,2,1,5],[3,4,2,1,5],[3,2,4,1,5],[4,2,3,1,5],
+                         [2,4,3,1,5],[2,3,4,1,5],[4,1,2,3,5],[1,4,2,3,5],[1,2,4,3,5],
+                         [4,2,1,3,5],[2,4,1,3,5],[2,1,4,3,5],[4,1,3,2,5],[1,4,3,2,5],
+                         [1,3,4,2,5],[4,3,1,2,5],[3,4,1,2,5],[3,1,4,2,5],[5,4,3,2,1],
+                         [4,5,3,2,1],[4,3,5,2,1],[4,3,2,5,1],[5,3,4,2,1],[3,5,4,2,1],
+                         [3,4,5,2,1],[3,4,2,5,1],[5,2,3,4,1],[2,5,3,4,1],[2,3,5,4,1],
+                         [2,3,4,5,1],[5,3,2,4,1],[3,5,2,4,1],[3,2,5,4,1],[3,2,4,5,1],
+                         [5,2,4,3,1],[2,5,4,3,1],[2,4,5,3,1],[2,4,3,5,1],[5,4,2,3,1],
+                         [4,5,2,3,1],[4,2,5,3,1],[4,2,3,5,1],[5,1,2,3,4],[1,5,2,3,4],
+                         [1,2,5,3,4],[1,2,3,5,4],[5,2,1,3,4],[2,5,1,3,4],[2,1,5,3,4],
+                         [2,1,3,5,4],[5,2,3,1,4],[2,5,3,1,4],[2,3,5,1,4],[2,3,1,5,4],
+                         [5,1,3,2,4],[1,5,3,2,4],[1,3,5,2,4],[1,3,2,5,4],[5,3,1,2,4],
+                         [3,5,1,2,4],[3,1,5,2,4],[3,1,2,5,4],[5,3,2,1,4],[3,5,2,1,4],
+                         [3,2,5,1,4],[3,2,1,5,4],[5,1,4,3,2],[1,5,4,3,2],[1,4,5,3,2],
+                         [1,4,3,5,2],[5,4,1,3,2],[4,5,1,3,2],[4,1,5,3,2],[4,1,3,5,2],
+                         [5,4,3,1,2],[4,5,3,1,2],[4,3,5,1,2],[4,3,1,5,2],[5,1,3,4,2],
+                         [1,5,3,4,2],[1,3,5,4,2],[1,3,4,5,2],[5,3,1,4,2],[3,5,1,4,2],
+                         [3,1,5,4,2],[3,1,4,5,2],[5,3,4,1,2],[3,5,4,1,2],[3,4,5,1,2],
+                         [3,4,1,5,2],[5,1,4,2,3],[1,5,4,2,3],[1,4,5,2,3],[1,4,2,5,3],
+                         [5,4,1,2,3],[4,5,1,2,3],[4,1,5,2,3],[4,1,2,5,3],[5,4,2,1,3],
+                         [4,5,2,1,3],[4,2,5,1,3],[4,2,1,5,3],[5,1,2,4,3],[1,5,2,4,3],
+                         [1,2,5,4,3],[1,2,4,5,3],[5,2,1,4,3],[2,5,1,4,3],[2,1,5,4,3],
+                         [2,1,4,5,3],[5,2,4,1,3],[2,5,4,1,3],[2,4,5,1,3],[2,4,1,5,3]].sort(),
+                        perms[5].sort());
+
+            // make sure lists with duplicates are handled correctly
+            assertEqual(Udon.permutations([1,2,2]), [[1,2,2],[1,2,2],[2,1,2],[2,2,1],
+                                                     [2,1,2],[2,2,1]]);
+            
+        }});
+    });
+
+    describe('cons', function() {
+        it('`cons` should add an element to the front of the list', function() { with (this) {
+            assertEqual([1], Udon.cons(1,[]));
+            assertEqual([[1],2,3], Udon.cons([1], [2,3]));
+        }});
+    });
+
+    describe('equal', function() {
+        it('`equal` should determin value equality', function() { with (this) {
+            assertEqual(true, Udon.equal(1,1));
+            assertEqual(false, Udon.equal(1,2));
+            assertEqual(true, Udon.equal("hello", "hello"));
+            assertEqual(false, Udon.equal("hello", "Hello"));
+            assertEqual(true, Udon.equal([1,2,3], [1,2,3]));
+            assertEqual(true, Udon.equal([[1],[2],[3]], [[1],[2],[3]]));
+            assertEqual(false, Udon.equal([[1],[2],[3]], [[1],[2,3]]));
+            assertEqual(false, Udon.equal([1], 1));
+        }});
+    });
+
+    describe('scanl', function() {
+        it('`scanl` should produce a list of continuous folds', function() { with (this) {
+            assertEqual([0,1,3,6], Udon.scanl(add, 0, [1,2,3]));
+        }});
+        it ('`the last element given by scanl should be the result of foldl', function() { with (this) {
+            assertEqual(Udon.last(Udon.scanl(add, 10, [6,99,437])),
+                        Udon.foldl(add, 10, [6,99,437]));
+        }});
+    });
+    
+    describe('scanl1', function() {
+        it('`scanl1` should produce a list of continuous folds without a starting value', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([1,3,6], Udon.scanl1(add, a));
+            assertEqual(a, [1,2,3]);
+        }});
+
+        it('`scanl1` can produce factorials from 1 with multiplication', function() { with (this) {
+            var a, facts;
+            a = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+            facts = [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 
+                     39916800, 479001600, 6227020800, 87178291200, 
+                     1307674368000, 20922789888000, 355687428096000, 
+                     6402373705728000, 121645100408832000, 2432902008176640000]
+            assertEqual(facts, Udon.scanl1(multiply, a));
+        }});
+    });
+
+    describe('scanr', function() {
+        it('`scanr` should produce a list of continuous folds from the right', function() { with (this) {
+            assertEqual([6,5,3,0], Udon.scanr(add, 0, [1,2,3]));
+        }});
+        it ('`the first element given by scanr should be the result of foldr', function() { with (this) {
+            assertEqual(Udon.head(Udon.scanr(add, 10, [6,99,437])),
+                        Udon.foldr(add, 10, [6,99,437]));
+        }});
+    });
+
+    describe('scanr1', function() {
+        it('`scanr1` should produce a list of continuous folds from the right without a starting value', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([6,5,3], Udon.scanr1(add, a));
+            assertEqual(a, [1,2,3]);
+        }});
+    });
+
+    describe('dropWhile', function() {
+        it('`dropWhile` should remove the first N elements from a list that satisfy a given pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([4,5,6], Udon.dropWhile(function(x){return x<=3}, a));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+        it('`dropWhile` should return the entire list when the first element of the supplied list does not satisfy the given predicate', function() { with (this) {
+            var a = [1,3,5];
+            assertEqual([1,3,5], Udon.dropWhile(function(x){return x % 2 === true}, a));
+        }});
+    });
+
+    describe('take', function() {
+        it('`take` should return the first N elements from a list', function() { with (this) {
+            var a = [1,2,3];
+            var b = [1];
+            assertEqual([1], Udon.take(1, a));
+            assertEqual([1,2], Udon.take(2, a));
+            assertEqual([1], Udon.take(1,b));
+            assertEqual(a, [1,2,3]);
+        }});
+        it('`take` should return the entire list when given an N greater than the length of the supplied list', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([1,2,3], Udon.take(4, a));
+            assertEqual(a, [1,2,3]);
+        }});
+        it('`take` should return the empty list when asked for 0 elements', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([], Udon.take(0, a));
+            assertEqual(a, [1,2,3]);
+        }});
+    });
+
+    describe('takeWhile', function() {
+        it('`takeWhile` should return the first N elements from a list that satisfy a supplied pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            var b = [2,4,3,6];
+            assertEqual([1,2,3], Udon.takeWhile(function(x){return x <= 3}, a));
+            assertEqual([2,4], Udon.takeWhile(function(x){return (x % 2) === 0}, b));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+        it('`takeWhile` should return the empty list if the first element of the given list does not satisfy supplied pred', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([], Udon.takeWhile(function(x){return x >= 3}, a));
+        }});
+    });
+    
+    describe('splitAt', function() {
+        it('`splitAt` should return a list containing a list of the first N elements from a list, and a list containing the remaining elements', function() { with (this) {
+            var a = [1,2,3,4,5,6];
+            assertEqual([[1,2,3],[4,5,6]], Udon.splitAt(3, a));
+            assertEqual(a, [1,2,3,4,5,6]);
+        }});
+    });
+
+    describe('span', function() {
+        it('`span` should be equivalent to [takeWhile..., dropWhile...]', function() { with (this) {
+            var a, b;
+            var lt = function(n) { return function(x) { return x < n}};
+            a = [1,2,3,4,1,2,3,4];
+            b = [1,2,3]
+            assertEqual([[1,2],[3,4,1,2,3,4]], Udon.span(lt(3), a));
+            assertEqual([[1,2],[3]], Udon.span(lt(3), b));
+            assertEqual([[1,2,3],[]], Udon.span(lt(9), b));
+            assertEqual([[],[1,2,3]], Udon.span(lt(0), b));
+        }});
+    });
+
+    describe('break', function() {
+        it('`break` should be equivalent to span (not . p)', function() { with (this) {
+            var a, b;
+            var lt = function(n) { return function(x) { return x < n}};
+            var gt = function(n) { return function(x) { return x > n}};
+            a = [1,2,3,4,1,2,3,4];
+            b = [1,2,3]
+            assertEqual([[],[1,2,3,4,1,2,3,4]], Udon.break(lt(3), a));
+            assertEqual([[1,2,3],[4,1,2,3,4]], Udon.break(gt(3), a));
+        }});
+    });
+
+    describe('inits', function() {
+        it('`inits` should return a list of lists containing all inits from a supplied list', function() { with (this) {
+            var a = [1,2,3], b = [1];
+            assertEqual([[],[1],[1,2],[1,2,3]], Udon.inits(a));
+            assertEqual([[],[1]], Udon.inits(b));
+            assertEqual([1,2,3], a);
+            assertEqual([1], b);
+        }});
+    });
+
+    describe('tails', function() {
+        it('`tails` should return a list of lists containing all tails from a supplied list', function() { with (this) {
+            var a = [1,2,3];
+            assertEqual([[1,2,3],[2,3],[3],[]], Udon.tails(a));
+            assertEqual([1,2,3], a);
+        }});
+    });
+
+    describe('find', function() {
+        it('`find` should return the first element of a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(6, Udon.find(function(x){return x % 2 === 0}, a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`find` should return null if no element in a list satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.find(gt(11), a));
+        }});
+    });
+
+    describe('elemIndex', function() {
+        it('`elemIndex` should return the index of the first element in a list that is equal to a supplied element', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            var b = [[1,2,3],[4,5,6]];
+            assertEqual(3, Udon.elemIndex(6, a));
+            assertEqual(1, Udon.elemIndex([4,5,6], b));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`elemIndex` should return null if there is not element in a list equal to a supplied element', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.elemIndex(11, a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+    });
+
+    describe('findIndex', function() {
+        it('`findIndex` should return the index of the first element in a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(4, Udon.findIndex(gt(6), a));
+            assertEqual([1,3,5,6,9,10], a);
+        }});
+        it('`findIndex` should return null if there is not element in a list that satisfies a given predicate', function() { with (this) {
+            var a = [1,3,5,6,9,10];
+            assertEqual(null, Udon.findIndex(gt(11), a));
+            assertEqual([1,3,5,6,9,10], a);
         }});
     });
 }});
