@@ -442,6 +442,17 @@ JS.ENV.UdonSpec = JS.Test.describe('Udon', function() { with (this) {
             assertEqual(false, Udon.notElem(5, [1, 2, 3, 4, 5]));
             assertEqual(false, Udon.notElem(5, [5, 4, 3, 2, 1]));
         }});
+        
+        it('`notElem` is the dual of `elem`', function() { with(this) {
+            assertEqual(!Udon.elem(5, []),
+                        Udon.notElem(5, []));
+            assertEqual(!Udon.elem(5, [1, 2, 3, 4]),
+                        Udon.notElem(5, [1, 2, 3, 4]));
+            assertEqual(!Udon.elem(5, [1, 2, 3, 4, 5]),
+                        Udon.notElem(5, [1, 2, 3, 4, 5]));
+            assertEqual(!Udon.elem(5, [5, 4, 3, 2, 1]),
+                        Udon.notElem(5, [5, 4, 3, 2, 1]));
+        }});
     });
     
     describe('partition', function() {
