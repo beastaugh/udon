@@ -1,21 +1,25 @@
 .test-result-container {
-  font:         normal 15px FreeSans, Helvatica, Arial, sans-serif;
   background:   #fff;
-  color:        #444;
   border:       2px solid #444;
+  color:        #444;
+  font:         normal 15px FreeSans, Helvetica, Arial, sans-serif;
+  overflow:     hidden;
   position:     absolute;
   right:        30px;
   top:          30px;
-  width:        509px;
-  overflow:     hidden;
+  width:        640px;
+  
+  -webkit-border-radius: 16px;
+     -moz-border-radius: 16px;
+          border-radius: 16px;
 }
 
 .test-result-container p,
 .test-result-container ul,
 .test-result-container li {
+  list-style:   circle outside;
   margin:       0;
   padding:      0;
-  list-style:   circle outside;
 }
 
 .test-result-container .report {
@@ -24,29 +28,69 @@
   padding:      0;
 }
 
-.test-result-container .report th, .test-result-container .report td {
+.test-result-container .report th:first-child {
+  -webkit-border-top-left-radius: 14px;
+     -moz-border-radius-topleft:  14px;
+          border-top-left-radius: 14px;
+}
+
+.test-result-container .report th:last-child {
+  -webkit-border-top-right-radius: 14px;
+     -moz-border-radius-topright:  14px;
+          border-top-right-radius: 14px;
+}
+
+.test-result-container .report th,
+.test-result-container .report td {
   border-left:  1px solid #ccc;
   border-right: 1px solid #ccc;
   font-weight:  bold;
   padding:      0 8px;
   text-align:   right;
-  width:        110px;
+  width:        144px;
+}
+
+.test-result-container .report th:first-child,
+.test-result-container .report td:first-child {
+  border-left: none;
+}
+
+.test-result-container .report th:last-child,
+.test-result-container .report td:last-child {
+  border-right: none;
 }
 
 .test-result-container .report th {
-  border-top:   1px solid #ccc;
   background:   #eee;
   padding:      4px 8px;
 }
 
 .test-result-container .report td {
-  font-size:    300%;
   color:        #999;
+  font-size:    300%;
 }
 
-.test-result-container .specs {
-  border-top:   1px solid #999;
+.test-result-container .light {
+  font-size:    0;
+  height:       6px;
+  overflow:     hidden;
+}
+.test-result-container .light-pending {
+  background:   #fc6;
+}
+.test-result-container .light-passed {
+  background:   #6c3;
+}
+.test-result-container .light-failed {
+  background:   #e40;
+}
+
+.test-result-container .user-agent {
+  background:   #444;
+  color:        #fff;
+  font-size:    80%;
   list-style:   none;
+  padding:      4px 12px;
 }
 
 .test-result-container .specs .spec,
@@ -61,8 +105,8 @@
 
 .test-result-container .spec-name {
   border-top:   1px solid #ddd;
-  font-weight:  bold;
   cursor:       pointer;
+  font-weight:  bold;
 }
 
 .test-result-container .specs ul {
@@ -71,6 +115,17 @@
 
 .test-result-container .specs p {
   padding:      4px 12px;
+}
+
+.test-result-container .specs .runner {
+  cursor:       pointer;
+  display:      block;
+  float:        left;
+  height:       0;
+  margin-right: 6px;
+  overflow:     hidden;
+  padding-top:  18px;
+  width:        16px;
 }
 
 .test-result-container .specs .fault {
@@ -92,25 +147,25 @@
 .test-result-container .stats {
   float:        right;
   list-style:   none;
-  top:          0;
   right:        0;
+  top:          0;
 }
 
 .test-result-container .stats li {
-  list-style:   none;
+  border-left:  1px solid #eee;
   display:      block;
   float:        left;
-  border-left:  1px solid #eee;
+  list-style:   none;
   padding:      4px 8px;
-  width:        47px;
+  width:        64px;
 }
 
 .test-result-container .stats .number {
-  font-weight:  bold;
   color:        #666;
+  font-weight:  bold;
 }
 
-.test-result-container .stats .letter {
+.test-result-container .stats .label {
   color:        #999;
   font-size:    80%;
 }
@@ -122,6 +177,7 @@
 .test-result-container .summary {
   border-top:   1px solid #999;
   color:        #666;
-  padding:      4px 12px;
   margin:       0;
+  padding:      4px 12px;
 }
+
