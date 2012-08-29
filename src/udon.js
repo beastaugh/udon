@@ -245,13 +245,7 @@ Udon.elem = function(e, xs) {
 };
 
 Udon.notElem = function(e, xs) {
-    var i = xs.length;
-    
-    while (i--) {
-        if (e === xs[i]) return false;
-    }
-    
-    return true;
+    return !Udon.elem(e, xs);
 };
 
 Udon.partition = function(f, xs) {
