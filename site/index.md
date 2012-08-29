@@ -11,15 +11,15 @@ in JavaScript.
 Downloads
 ---------
 
-Current version: **1.3.0**.
+[**Download Udon 1.3.0**](./downloads/udon-1.3.0.zip)
 
-* [Development version](./downloads/udon-1.3.0.js)
-* [Production version](./downloads/udon-1.3.0-min.js)
-  7kb packed, 1.8kb gzipped
-
-This version adds the following new functions to the library: `id`, `concat`,
-`sum`, `product`, `elem`, `notElem`, `reverse`, `intersperse` and
-`intercalate`.
+This version adds the following new functions to the library: `and`, `append`,
+`break`, `concatMap`, `cons`, `drop`, `dropWhile`, `elemIndex`, `empty`,
+`equal`, `find`, `findIndex`, `foldr1`, `head`, `init`, `inits`, `last`,
+`length`, `or`, `permutations`, `scanl`, `scanl1`, `scanr`, `scanr1`, `span`,
+`splitAt`, `subsequences`, `tail`, `tails`, `take`, `takeWhile` and `transpose`.
+Thanks to [Justin Hamilton](http://jamiltron.github.com/) for contributing the
+code for this release.
 
 
 Programming with Udon
